@@ -7,278 +7,224 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --sidebar-bg: #1e293b; --main-bg: #f1f5f9; --card-bg: #ffffff;
-            --primary: #4f46e5; --text-main: #1e293b; --text-sub: #64748b;
-            --border: #e2e8f0; --accent: #10b981; --danger: #ef4444;
+            --sidebar-bg: #1e293b; --main-bg: #f8fafc; --card-bg: #ffffff;
+            --primary: #4f46e5; --text-main: #0f172a; --text-sub: #64748b;
+            --border: #e2e8f0; --accent: #10b981; --danger: #f43f5e;
             --debt: #f59e0b;
+            --tg-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --tg-soft: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         [data-theme="dark"] {
-            --sidebar-bg: #0f172a; --main-bg: #0f172a; --card-bg: #1e293b;
-            --primary: #818cf8; --text-main: #f1f5f9; --text-sub: #94a3b8;
+            --sidebar-bg: #0f172a; --main-bg: #020617; --card-bg: #1e293b;
+            --primary: #818cf8; --text-main: #f8fafc; --text-sub: #94a3b8;
             --border: #334155;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--main-bg); margin: 0; display: flex; 
             height: 100vh; overflow: hidden; color: var(--text-main); transition: 0.3s;
         }
 
-        #loginOverlay {
-            position: fixed; inset: 0; 
-            background: linear-gradient(-45deg, #1e293b, #4f46e5, #1e1b4b, #10b981);
-            background-size: 400% 400%; animation: moveGradient 15s ease infinite;
-            display: flex; align-items: center; justify-content: center; z-index: 9999;
+        /* إيماءات الدخول وتأثيرات الواجهة */
+        .sidebar { animation: slideLeft 0.8s var(--tg-soft) both; }
+        .stat-card { animation: zoomIn 0.6s var(--tg-bounce) both; }
+        .table-container { animation: slideUp 0.7s var(--tg-soft) both; animation-delay: 0.3s; }
+        .action-card { animation: slideUp 0.7s var(--tg-soft) both; animation-delay: 0.4s; }
+
+        @keyframes slideLeft { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+        .stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .stat-card, .action-card, .table-container {
+            border-radius: 20px; border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+            transition: 0.3s var(--tg-soft);
+        }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); border-color: var(--primary); }
+
+        .btn {
+            transition: all 0.2s var(--tg-soft) !important;
+            border-radius: 12px; font-weight: 600; letter-spacing: 0.5px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn:active { transform: scale(0.94); }
+        .btn:hover { filter: brightness(1.15); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+
+        table { width: 100%; border-radius: 12px; overflow: hidden; border-collapse: collapse; }
+        th { background: var(--main-bg); text-transform: uppercase; letter-spacing: 1px; font-size: 0.75rem; padding: 15px; text-align: right; }
+        td { padding: 15px; border-bottom: 1px solid var(--border); transition: 0.2s; text-align: right; }
+        tr:hover td { background: rgba(79, 70, 229, 0.05); }
+
+        /* الألوان الديناميكية لخلفية الدخول */
+        #loginOverlay { 
+            position: fixed; 
+            inset: 0; 
+            background: linear-gradient(-45deg, #0b0f19, #4b5563, #dc2626, #16a34a, #facc15);
+            background-size: 400% 400%;
+            animation: customFastGradient 6s ease infinite;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 9999; 
         }
 
-        @keyframes moveGradient {
+        @keyframes customFastGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        .login-box {
-            background: var(--card-bg); padding: 40px; border-radius: 24px;
-            width: 350px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
+        .login-box { 
+            background: rgba(15, 23, 42, 0.75); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px; 
+            border-radius: 28px; 
+            width: 360px; 
+            text-align: center; 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6); 
+        }
+        
+        .login-box h1 {
+            color: #ffffff;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+            font-weight: 800;
+            letter-spacing: 1px;
         }
 
-        .sidebar {
-            width: 260px; background: var(--sidebar-bg); color: white;
-            padding: 20px 15px; display: flex; flex-direction: column; gap: 10px;
-            overflow-y: auto;
-        }
-
-        .main-content {
-            flex: 1; padding: 20px; overflow-y: auto;
-            display: grid; grid-template-columns: 1fr 350px; gap: 20px;
-        }
-
-        .stat-card {
-            background: var(--card-bg); padding: 10px 10px; border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid var(--border);
-            text-align: center; position: relative; min-height: 70px;
-            display: flex; flex-direction: column; justify-content: center;
-        }
-
-        .stat-card span { font-size: 0.9rem; font-weight: 500; margin-bottom: 4px; }
-
-        .stat-card strong { font-size: 1.2rem !important; }
-
-        .individual-eye {
-            position: absolute; top: 5px; left: 8px; cursor: pointer;
-            font-size: 1.1rem; opacity: 0.6; transition: 0.2s;
-        }
-        .individual-eye:hover { opacity: 1; color: var(--primary); transform: scale(1.1); }
-
-        .action-card, .table-container {
-            background: var(--card-bg); padding: 20px; border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid var(--border);
-        }
-
-        .stats-grid { 
-            grid-column: span 2; 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 15px; 
-            margin-bottom: 5px;
-        }
-
-        input, textarea {
-            width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px;
-            border: 1px solid var(--border); background: var(--main-bg); color: var(--text-main); box-sizing: border-box;
-            font-family: inherit;
-        }
-
-        .btn {
-            padding: 10px; border: none; border-radius: 10px; cursor: pointer;
-            font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;
-            width: 100%; transition: 0.2s; margin-bottom: 8px;
-        }
-
+        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; padding: 25px 18px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+        .main-content { flex: 1; padding: 25px; overflow-y: auto; display: grid; grid-template-columns: 1fr 360px; gap: 25px; }
+        .stats-grid { grid-column: span 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .stat-card { background: var(--card-bg); padding: 20px; text-align: center; position: relative; }
+        .individual-eye { position: absolute; top: 10px; left: 12px; cursor: pointer; opacity: 0.4; font-size: 1.2rem; }
+        .action-card, .table-container { background: var(--card-bg); padding: 25px; }
+        input, textarea { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--main-bg); color: var(--text-main); font-family: inherit; transition: 0.3s; box-sizing: border-box; }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+        .btn { width: 100%; padding: 14px; border: none; cursor: pointer; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-theme { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
-        .btn-backup { background: #d946ef; color: white; }
         .btn-danger { background: var(--danger); color: white; }
         .btn-debt { background: var(--debt); color: white; }
-        .btn-reset { background: #64748b; color: white; }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { text-align: right; padding: 10px; border-bottom: 2px solid var(--border); color: var(--text-sub); font-size: 0.85rem; }
-        td { padding: 10px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-
-        .time-badge { font-size: 0.75rem; color: var(--text-sub); background: var(--main-bg); padding: 2px 6px; border-radius: 5px; }
-
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 1000; }
-        .modal-content { background: var(--card-bg); width: 85%; max-width: 900px; margin: 40px auto; padding: 30px; border-radius: 20px; max-height: 85vh; overflow-y: auto; }
-
-        .archive-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
-        .summary-box { padding: 12px; border-radius: 12px; border: 1px solid var(--border); text-align: center; font-size: 0.9rem; }
-
-        .details-container { display: none; padding: 15px; background: var(--main-bg); border-radius: 8px; margin: 10px 0; border: 1px solid var(--border); }
-        .details-container.active { display: block; }
-
-        .chart-container {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            margin-bottom: 20px;
-            height: 300px;
-        }
-
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); z-index: 1000; }
+        .modal-content { background: var(--card-bg); width: 90%; max-width: 950px; margin: 40px auto; padding: 35px; border-radius: 24px; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); }
+        .details-container { display: none; padding: 15px; background: var(--main-bg); border-radius: 12px; margin-top: 10px; border: 1px solid var(--border); }
+        .details-container.active { display: block; animation: slideUp 0.3s ease; }
         #receipt-print { display: none; }
-        @media print {
-            body * { visibility: hidden; }
-            #receipt-print, #receipt-print * { visibility: visible; }
-            #receipt-print { display: block; position: absolute; left: 0; top: 0; width: 100%; text-align: center; }
-        }
+        @media print { body * { visibility: hidden; } #receipt-print, #receipt-print * { visibility: visible; } #receipt-print { display: block; position: absolute; left: 0; top: 0; width: 100%; text-align: center; } }
     </style>
 </head>
 <body data-theme="light">
 
 <div id="loginOverlay">
     <div class="login-box">
-        <h2 style="color: var(--primary); margin-bottom: 5px;">Cyber Mounir</h2>
-        <p style="color: var(--text-sub); margin-bottom: 25px;">نظام إدارة المبيعات</p>
-        <input type="text" id="username" placeholder="اسم المستخدم">
-        <input type="password" id="password" placeholder="كلمة المرور">
-        <button class="btn btn-primary" onclick="checkLogin()">دخول النظام</button>
-        <p id="loginError" style="color: var(--danger); display: none; font-size: 0.8rem; margin-top: 10px;">خطأ في البيانات، حاول مجدداً</p>
+        <h1>Cyber Mounir</h1>
+        <input type="text" id="username" placeholder="اسم المستخدم" style="background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255,255,255,0.15);">
+        <input type="password" id="password" placeholder="كلمة المرور" style="background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255,255,255,0.15);">
+        <button class="btn btn-primary" style="background: linear-gradient(to right, #16a34a, #10b981); color: #ffffff; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onclick="checkLogin()">دخول النظام</button>
+        <p id="loginError" style="color: #f87171; font-weight: bold; display: none; margin-top: 15px; text-shadow: 0 1px 5px rgba(0,0,0,0.5);">بيانات الدخول غير صحيحة</p>
     </div>
 </div>
 
 <div class="sidebar">
-    <h2 style="color:var(--primary); text-align:center; margin-bottom: 10px;">Cyber Mounir</h2>
-    <button class="btn btn-theme" onclick="toggleTheme()">🌓 تغيير المظهر</button>
-    <button class="btn btn-primary" style="background:#6366f1" onclick="openArchive()">📜 سجلات الأيام (الأسبوع)</button>
-    <button class="btn btn-debt" style="background:#f59e0b" onclick="openDebtLatent()">📌 سجل الديون المتبقية</button>
-    <button class="btn btn-backup" onclick="downloadBackup()">💾 حفظ نسخة احتياطية</button>
-    
-    <button class="btn btn-primary" style="background:#1e293b" onclick="openFullHistory()">📁 tout les jours</button>
-    
-    <div style="margin-top: 10px;">
-        <label style="font-size: 0.8rem; color: var(--text-sub);">📝 ملاحظات اليوم:</label>
-        <textarea id="dailyNotes" rows="4" placeholder="اكتب ملاحظاتك هنا..." style="font-size: 0.8rem; margin-top: 5px;" oninput="saveNotes()"></textarea>
-    </div>
-
-    <button class="btn btn-danger" style="background:#475569; margin-top:auto" onclick="logout()">🔒 تسجيل الخروج</button>
+    <h2 style="text-align:center; color:white; margin-bottom: 20px;">اللوحة الرئيسية</h2>
+    <button class="btn" style="background:#6366f1; color:white;" onclick="openArchive()">📜 سجل الأسبوع</button>
+    <button class="btn btn-primary" onclick="toggleTheme()">🌓 مظهر النظام</button>
+    <button class="btn btn-debt" onclick="openDebtLatent()">📌 ديون لم تُدفع</button>
+    <button class="btn" style="background:#d946ef; color:white;" onclick="downloadBackup()">💾 حفظ نسخة</button>
+    <button class="btn" style="background:#1e293b; border:1px solid #334155; color:white;" onclick="openFullHistory()">📁 tout les jours</button>
+    <textarea id="dailyNotes" rows="4" placeholder="اكتب ملاحظاتك هنا..." oninput="saveNotes()" style="margin-top:10px;"></textarea>
+    <button class="btn btn-danger" style="margin-top:auto" onclick="logout()">🔒 تسجيل الخروج</button>
 </div>
 
 <div class="main-content">
     <div class="stats-grid">
         <div class="stat-card">
             <span class="individual-eye" onclick="toggleCardPrivacy('liveTotal')">👁️</span>
-            <span>💰 المبيعات</span>
-            <strong id="liveTotal" style="display:block;">0.00 دج</strong>
+            <span style="color: var(--text-sub); font-size: 0.9rem;">💰 مبيعات اليوم</span>
+            <strong id="liveTotal" style="font-size: 1.6rem; display: block; margin-top: 5px;">0.00 دج</strong>
         </div>
         <div class="stat-card">
             <span class="individual-eye" onclick="toggleCardPrivacy('totalExpenses')">👁️</span>
-            <span>💸 المصروفات</span>
-            <strong id="totalExpenses" style="display:block; color:var(--danger)">0.00 دج</strong>
+            <span style="color: var(--text-sub); font-size: 0.9rem;">💸 المصروفات</span>
+            <strong id="totalExpenses" style="font-size: 1.6rem; display: block; margin-top: 5px; color: var(--danger)">0.00 دج</strong>
         </div>
         <div class="stat-card">
             <span class="individual-eye" onclick="toggleCardPrivacy('totalDebts')">👁️</span>
-            <span>📌 الديون</span>
-            <strong id="totalDebts" style="display:block; color:var(--debt)">0.00 دج</strong>
+            <span style="color: var(--text-sub); font-size: 0.9rem;">📌 إجمالي الديون</span>
+            <strong id="totalDebts" style="font-size: 1.6rem; display: block; margin-top: 5px; color: var(--debt)">0.00 دج</strong>
         </div>
         <div class="stat-card">
             <span class="individual-eye" onclick="toggleCardPrivacy('netTotal')">👁️</span>
-            <span>📈 الصافي</span>
-            <strong id="netTotal" style="display:block; color:var(--accent)">0.00 دج</strong>
+            <span style="color: var(--text-sub); font-size: 0.9rem;">📈 الصافي</span>
+            <strong id="netTotal" style="font-size: 1.6rem; display: block; margin-top: 5px; color: var(--accent)">0.00 دج</strong>
         </div>
     </div>
 
     <div class="table-container">
-        <h3>📊 سجل عمليات اليوم الحالي</h3>
+        <h3 style="margin-top: 0;">📊 سجل حركة اليوم</h3>
         <div id="currentDayTable"></div>
     </div>
 
     <div class="action-card">
-        <h3 style="margin:0 0 15px 0; color:var(--primary); text-align:center;">إضافة عملية جديدة</h3>
-        <input type="number" id="mainPrice" placeholder="المبلغ (دج)">
-        <input type="text" id="mainNote" placeholder="البيان (الوصف أو اسم الزبون)">
-        
-        <div style="margin-top: 10px;">
-            <button class="btn btn-primary" onclick="processEntry('sale')">✅ إضافة مبيعات</button>
-            <button class="btn btn-danger" onclick="processEntry('expense')">🚫 إضافة مصروفات</button>
-            <button class="btn btn-debt" onclick="processEntry('debt')">📌 إضافة ديون</button>
+        <h3 style="text-align:center; color:var(--primary); margin-top: 0;">إضافة عملية جديدة</h3>
+        <input type="number" id="mainPrice" placeholder="أدخل المبلغ هنا">
+        <input type="text" id="mainNote" placeholder="ملاحظة أو بيان العملية">
+        <div style="display:flex; gap:10px; margin-bottom:12px;">
+            <button class="btn btn-primary" onclick="processEntry('sale')">✅ مبيعات</button>
+            <button class="btn btn-danger" onclick="processEntry('expense')">🚫 مصروفات</button>
         </div>
-
-        <div style="margin-top: 20px; padding-top: 10px; border-top: 1px dashed var(--border);">
-            <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 8px; font-weight: bold;">💳 بيع بطاقات التعبئة (110 دج):</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 10px;">
-                <button class="btn" style="background:#ed1c24; color:white; margin:0; font-size: 0.8rem;" onclick="sellCard('أوريدو')">Ooredoo</button>
-                <button class="btn" style="background:#1ab248; color:white; margin:0; font-size: 0.8rem;" onclick="sellCard('موبيليس')">Mobilis</button>
-                <button class="btn" style="background:#ec1b23; color:white; margin:0; font-size: 0.8rem;" onclick="sellCard('جيزي')">Djezzy</button>
+        <button class="btn btn-debt" onclick="processEntry('debt')">📌 تسجيل دين</button>
+        
+        <!-- 📱 قسم الفليكسي المحدث مع زر الاستعادة 📱 -->
+        <div style="margin-top:20px; padding-top:20px; border-top:2px dashed var(--border);">
+            <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
+                <button class="btn" style="background:#ed1c24; color:white; font-size: 0.85rem;" onclick="sellCard('أوريدو')">Ooredoo</button>
+                <button class="btn" style="background:#1ab248; color:white; font-size: 0.85rem;" onclick="sellCard('موبيليس')">Mobilis</button>
+                <button class="btn" style="background:#ec1b23; color:white; font-size: 0.85rem;" onclick="sellCard('جيزي')">Djezzy</button>
             </div>
-            <div style="background: var(--main-bg); padding: 12px; border-radius: 10px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
-                <div style="text-align: center; flex: 1;">
-                    <span style="font-size: 0.75rem; color: var(--text-sub);">💰 مبيعات البطاقات (منفصلة)</span>
-                    <div id="cardSalesDisplay" style="font-weight: bold; color: var(--primary); font-size: 1.1rem;">0 دج</div>
-                </div>
-                <button onclick="resetCardStats()" style="background: none; border: none; cursor: pointer; color: var(--danger); font-size: 0.9rem;" title="تصفير">🔄</button>
-            </div>
+            
+            <div id="cardSalesDisplay" style="text-align:center; font-weight:bold; margin:15px 0; font-size: 1.2rem; color:var(--primary);">0 دج</div>
+            
+            <!-- زر تصفير واستعادة عداد الفليكسي -->
+            <button class="btn" style="background:#475569; color:white; font-size:0.9rem; padding:10px;" onclick="resetCardSales()">🔄 استعادة وتصـفير الفليكسي</button>
         </div>
         
-        <button class="btn btn-primary" style="background:#f59e0b; margin-top: 25px;" onclick="closeDay()">💾 ترحيل وإنهاء اليوم</button>
+        <button class="btn btn-primary" style="background:linear-gradient(to right, #f59e0b, #d97706); margin-top:15px;" onclick="closeDay()">💾 ترحيل وإنهاء اليوم</button>
     </div>
 </div>
 
-<div id="archiveModal" class="modal">
-    <div class="modal-content">
-        <span style="float:left; cursor:pointer; font-size: 24px;" onclick="closeArchive()">✖</span>
-        <h3 style="margin-top:0">📂 أرشيف الأسبوع الحالي</h3>
-        <div class="archive-summary" id="archiveSummary"></div>
-        <div id="archiveBody"></div>
-    </div>
-</div>
-
-<div id="historyModal" class="modal">
-    <div class="modal-content">
-        <span style="float:left; cursor:pointer; font-size: 24px;" onclick="closeFullHistory()">✖</span>
-        <h3 style="margin-top:0">📁 الأرشيف العام: tout les jours</h3>
-        <div class="chart-container" id="chartContainer" style="display: none;"><canvas id="historyChart"></canvas></div>
-        <div class="archive-summary" id="historySummary"></div>
-        <div id="historyBody"></div>
-    </div>
-</div>
-
-<div id="debtModal" class="modal">
-    <div class="modal-content">
-        <span style="float:left; cursor:pointer; font-size: 24px;" onclick="closeDebtModal()">✖</span>
-        <h3 style="margin-top:0">📌 سجل الديون غير المحصلة (دائمة)</h3>
-        <div id="debtListBody"></div>
-    </div>
-</div>
-
+<div id="archiveModal" class="modal"><div class="modal-content"><span style="float:left; cursor:pointer; font-size:28px;" onclick="closeArchive()">✖</span><h3>📂 أرشيف الأسبوع</h3><div id="archiveSummary" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:15px; margin-bottom:20px;"></div><div id="archiveBody"></div></div></div>
+<div id="historyModal" class="modal"><div class="modal-content"><span style="float:left; cursor:pointer; font-size:28px;" onclick="closeFullHistory()">✖</span><h3>📁 الأرشيف الشامل: tout les jours</h3><div style="height: 300px; margin-bottom: 25px;"><canvas id="historyChart"></canvas></div><div id="historyBody"></div></div></div>
+<div id="debtModal" class="modal"><div class="modal-content"><span style="float:left; cursor:pointer; font-size:28px;" onclick="closeDebtModal()">✖</span><h3>📌 قائمة الديون غير المحصلة</h3><div id="debtListBody"></div></div></div>
 <div id="receipt-print"></div>
 
 <script>
-    window.onbeforeunload = function() { return "هل أنت متأكد؟ قد تفقد البيانات."; };
     let cardPrivacy = { liveTotal: false, totalExpenses: false, totalDebts: false, netTotal: false };
-    let historyChartInstance = null;
-
-    function checkLogin() {
-        const user = document.getElementById('username').value;
-        const pass = document.getElementById('password').value;
-        if(user === "Mounir Aidoun" && pass === "Mounir2007") {
-            document.getElementById('loginOverlay').style.display = 'none';
-            sessionStorage.setItem('isLoggedIn', 'true');
-        } else { document.getElementById('loginError').style.display = 'block'; }
-    }
-
-    function logout() { sessionStorage.removeItem('isLoggedIn'); location.reload(); }
-    if(sessionStorage.getItem('isLoggedIn') === 'true') { document.getElementById('loginOverlay').style.display = 'none'; }
-
     let dailyLog = JSON.parse(localStorage.getItem('proShopLog')) || [];
     let fullHistory = JSON.parse(localStorage.getItem('toutLesJoursLog')) || [];
     let currentDayItems = JSON.parse(localStorage.getItem('proShopCurrent')) || [];
     let cardSalesTotal = parseFloat(localStorage.getItem('cardSalesTotal')) || 0;
+    let historyChartInstance = null;
 
-    function saveNotes() { localStorage.setItem('dailyNotes', document.getElementById('dailyNotes').value); }
-    document.getElementById('dailyNotes').value = localStorage.getItem('dailyNotes') || "";
+    function checkLogin() {
+        const u = document.getElementById('username').value;
+        const p = document.getElementById('password').value;
+        if(u === "Mounir Aidoun" && p === "Mounir2007") {
+            document.getElementById('loginOverlay').style.display = 'none';
+            sessionStorage.setItem('isLoggedIn', 'true');
+        } else { document.getElementById('loginError').style.display = 'block'; }
+    }
+    if(sessionStorage.getItem('isLoggedIn') === 'true') document.getElementById('loginOverlay').style.display = 'none';
+    function logout() { sessionStorage.removeItem('isLoggedIn'); location.reload(); }
 
     function toggleTheme() {
         const next = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
@@ -287,185 +233,88 @@
     }
     if(localStorage.getItem('theme')) document.body.setAttribute('data-theme', localStorage.getItem('theme'));
 
-    function toggleCardPrivacy(id) { cardPrivacy[id] = !cardPrivacy[id]; updateUI(); }
-
-    function updateUI() {
-        localStorage.setItem('proShopCurrent', JSON.stringify(currentDayItems));
-        const salesTotal = currentDayItems.filter(i => i.type === 'sale').reduce((s, i) => s + i.price, 0);
-        const expenseTotal = currentDayItems.filter(i => i.type === 'expense').reduce((s, i) => s + i.price, 0);
-        const debtTotal = currentDayItems.filter(i => i.type === 'debt').reduce((s, i) => s + i.price, 0);
-        
-        const vals = {
-            liveTotal: salesTotal.toLocaleString() + ' دج',
-            totalExpenses: expenseTotal.toLocaleString() + ' دج',
-            totalDebts: debtTotal.toLocaleString() + ' دج',
-            netTotal: (salesTotal - expenseTotal).toLocaleString() + ' دج'
-        };
-        for (let id in vals) { document.getElementById(id).innerText = cardPrivacy[id] ? "****" : vals[id]; }
-
-        let html = '<table><thead><tr><th>🕒 الوقت</th><th>📝 البيان</th><th>💵 المبلغ</th><th>⚙️ خيارات</th></tr></thead><tbody>';
-        currentDayItems.slice().reverse().forEach((item, index) => {
-            const realIdx = currentDayItems.length - 1 - index;
-            const isExp = item.type === 'expense'; const isDebt = item.type === 'debt';
-            html += `<tr style="${isExp ? 'background:rgba(239, 68, 68, 0.05)' : (isDebt ? 'background:rgba(245, 158, 11, 0.05)' : '')}">
-                <td><span class="time-badge">${item.time || '--:--'}</span></td>
-                <td>${isExp ? '🚫 ' : (isDebt ? '📌 ' : '✅ ')}${item.note}</td>
-                <td style="color: ${isExp ? 'red' : (isDebt ? 'var(--debt)' : 'inherit')}"><strong>${isExp ? '-' : ''}${item.price.toLocaleString()} دج</strong></td>
-                <td style="display:flex; gap:8px;">
-                    ${isDebt ? `<button class="btn" style="padding:5px 12px; background:var(--accent); color:white; width:auto; margin:0;" onclick="collectDebt(${realIdx})">💰 قبض</button>` : ''}
-                    ${item.type === 'sale' ? `<button class="btn" style="padding:5px 12px; background:#e2e8f0; width:auto; margin:0;" onclick="printReceipt(${item.price}, '${item.note}')">🖨️</button>` : ''}
-                    <button class="btn" style="padding:5px 12px; background:#fee2e2; color:red; width:auto; margin:0;" onclick="deleteSale(${realIdx})">🗑️</button>
-                </td>
-            </tr>`;
-        });
-        document.getElementById('currentDayTable').innerHTML = currentDayItems.length > 0 ? html + '</tbody></table>' : '<p style="text-align:center; padding:20px;">لا عمليات</p>';
-    }
-
     function processEntry(type) {
         const p = document.getElementById('mainPrice'); const n = document.getElementById('mainNote');
-        if(!p.value || p.value <= 0) return;
-        const now = new Date();
-        const t = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        currentDayItems.push({ price: parseFloat(p.value), note: n.value || "عملية", time: t, type: type });
+        if(!p.value) return;
+        const t = new Date().toLocaleTimeString('ar-DZ', {hour: '2-digit', minute:'2-digit'});
+        currentDayItems.push({ price: parseFloat(p.value), note: n.value || "عملية", type: type, time: t });
         p.value = ''; n.value = ''; updateUI();
     }
 
-    function collectDebt(idx) { if(confirm("تم تسديد هذا الدين؟")) { currentDayItems[idx].type = 'sale'; updateUI(); } }
-    function deleteSale(idx) { if(confirm("حذف العملية؟")) { currentDayItems.splice(idx, 1); updateUI(); } }
+    function updateUI() {
+        localStorage.setItem('proShopCurrent', JSON.stringify(currentDayItems));
+        const s = currentDayItems.filter(i => i.type === 'sale').reduce((acc, i) => acc + i.price, 0);
+        const e = currentDayItems.filter(i => i.type === 'expense').reduce((acc, i) => acc + i.price, 0);
+        const d = currentDayItems.filter(i => i.type === 'debt').reduce((acc, i) => acc + i.price, 0);
+        document.getElementById('liveTotal').innerText = cardPrivacy.liveTotal ? "****" : s.toLocaleString() + " دج";
+        document.getElementById('totalExpenses').innerText = cardPrivacy.totalExpenses ? "****" : e.toLocaleString() + " دج";
+        document.getElementById('totalDebts').innerText = cardPrivacy.totalDebts ? "****" : d.toLocaleString() + " دج";
+        document.getElementById('netTotal').innerText = cardPrivacy.netTotal ? "****" : (s - e).toLocaleString() + " دج";
+        
+        let html = '<table><thead><tr><th>🕒 الوقت</th><th>📝 البيان</th><th>💵 المبلغ</th><th>⚙️</th></tr></thead><tbody>';
+        currentDayItems.slice().reverse().forEach((item, index) => {
+            const rIdx = currentDayItems.length - 1 - index;
+            html += `<tr><td>${item.time}</td><td>${item.type === 'expense' ? '🚫 ' : (item.type === 'debt' ? '📌 ' : '✅ ')}${item.note}</td><td style="color:${item.type === 'expense' ? 'var(--danger)' : (item.type === 'debt' ? 'var(--debt)' : 'inherit')}"><b>${item.price.toLocaleString()}</b></td><td>${item.type === 'debt' ? `<button onclick="collectDebt(${rIdx})" style="background:var(--accent); color:white; border:none; padding:6px 10px; border-radius:8px; cursor:pointer;">قبض</button>` : ''}<button onclick="deleteItem(${rIdx})" style="background:none; border:none; cursor:pointer; color:var(--danger); margin-right:10px;">🗑️</button></td></tr>`;
+        });
+        document.getElementById('currentDayTable').innerHTML = html + '</tbody></table>';
+    }
 
-    function downloadBackup() {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({log: dailyLog, history: fullHistory, current: currentDayItems}));
-        const dlNode = document.createElement('a');
-        dlNode.setAttribute("href", dataStr); dlNode.setAttribute("download", "backup.json");
-        dlNode.click();
+    function collectDebt(idx) { if(confirm("هل تم استلام مبلغ الدين؟")) { currentDayItems[idx].type = 'sale'; updateUI(); } }
+    function deleteItem(idx) { if(confirm("هل أنت متأكد من حذف هذه العملية؟")) { currentDayItems.splice(idx, 1); updateUI(); } }
+    
+    // وظائف الفليكسي
+    function sellCard(provider) { cardSalesTotal += 110; localStorage.setItem('cardSalesTotal', cardSalesTotal); document.getElementById('cardSalesDisplay').innerText = cardSalesTotal.toLocaleString() + " دج"; }
+    
+    // دالة استعادة وتصفير عداد الفليكسي المضافة
+    function resetCardSales() {
+        if(confirm("هل أنت متأكد من تصفير إجمالي عداد الفليكسي؟")) {
+            cardSalesTotal = 0;
+            localStorage.setItem('cardSalesTotal', 0);
+            document.getElementById('cardSalesDisplay').innerText = "0 دج";
+        }
     }
 
     function closeDay() {
-        if (currentDayItems.length === 0) return;
-        if(confirm("ترحيل اليوم؟")) {
+        if(currentDayItems.length === 0) return;
+        if(confirm("هل تريد ترحيل بيانات اليوم إلى الأرشيف وإفراغ القائمة?")) {
             const s = currentDayItems.filter(i => i.type === 'sale').reduce((acc, i) => acc + i.price, 0);
             const e = currentDayItems.filter(i => i.type === 'expense').reduce((acc, i) => acc + i.price, 0);
-            dailyLog.push({ date: new Date().toLocaleDateString('ar-DZ'), total: s, expenses: e, net: s - e, details: [...currentDayItems] });
+            dailyLog.push({ date: new Date().toLocaleDateString('ar-DZ'), total: s, expenses: e, net: s-e, details: [...currentDayItems] });
             localStorage.setItem('proShopLog', JSON.stringify(dailyLog));
-            downloadBackup(); currentDayItems = []; updateUI();
+            currentDayItems = []; updateUI();
         }
     }
 
-    function openArchive() { document.getElementById('archiveModal').style.display = 'block'; renderArchive(); }
+    function openArchive() {
+        document.getElementById('archiveModal').style.display = 'block';
+        const ts = dailyLog.reduce((acc, curr) => acc + curr.total, 0);
+        const te = dailyLog.reduce((acc, curr) => acc + curr.expenses, 0);
+        document.getElementById('archiveSummary').innerHTML = `<div style="background:var(--main-bg); padding:15px; border-radius:15px; text-align:center;">💰 مبيعات<br><b>${ts.toLocaleString()}</b></div><div style="background:var(--main-bg); padding:15px; border-radius:15px; text-align:center;">💸 مصروفات<br><b>${te.toLocaleString()}</b></div><div style="background:var(--main-bg); padding:15px; border-radius:15px; text-align:center;">📈 صافي<br><b>${(ts-te).toLocaleString()}</b></div><div style="display:flex; flex-direction:column; gap:5px;"><button class="btn btn-primary" style="padding:8px; font-size:0.8rem;" onclick="printReport(${ts})">🖨️ طباعة</button><button class="btn" style="padding:8px; font-size:0.8rem; background:var(--sidebar-bg); color:white;" onclick="resetWeek()">🔄 تصفير</button></div>`;
+        let html = '<table><thead><tr><th>📅 التاريخ</th><th>💰 المبيعات</th><th>⚙️ الإجراء</th></tr></thead><tbody>';
+        dailyLog.slice().reverse().forEach((day, idx) => { const rIdx = dailyLog.length - 1 - idx; html += `<tr onclick="toggleDetails(${rIdx}, 'dailyLog', 'det-')"><td>${day.date} 🔽</td><td><b>${day.total}</b></td><td><button onclick="event.stopPropagation(); deleteArchive(${rIdx})" style="color:var(--danger); background:none; border:none; cursor:pointer;">🗑️</button></td></tr><tr><td colspan="3"><div id="det-${rIdx}" class="details-container"></div></td></tr>`; });
+        document.getElementById('archiveBody').innerHTML = html + '</tbody></table>';
+    }
+
+    function printReport(sales) {
+        const salary = 6000;
+        const printArea = document.getElementById('receipt-print');
+        printArea.innerHTML = `<div style="text-align:center; padding:40px; border:3px solid #000; font-family:serif;" dir="rtl"><h1>Cyber Mounir</h1><hr><h3>تقرير الأرباح</h3><p>إجمالي المبيعات: ${sales.toLocaleString()} دج</p><p>الراتب: ${salary.toLocaleString()} دج</p><hr><h2>المبلغ المطلوب: ${(sales - salary).toLocaleString()} دج</h2></div>`;
+        window.print();
+    }
+
+    function resetWeek() { if(confirm("نقل البيانات لـ tout les jours وتصفير الأسبوع؟")) { fullHistory = [...fullHistory, ...dailyLog]; localStorage.setItem('toutLesJoursLog', JSON.stringify(fullHistory)); dailyLog = []; localStorage.setItem('proShopLog', JSON.stringify(dailyLog)); closeArchive(); } }
+    function openFullHistory() { document.getElementById('historyModal').style.display = 'block'; renderHistoryChart(); let html = '<table><thead><tr><th>📅 التاريخ</th><th>💰 المبيعات</th><th>📈 الصافي</th></tr></thead><tbody>'; fullHistory.slice().reverse().forEach(d => { html += `<tr><td>${d.date}</td><td>${d.total}</td><td>${d.net}</td></tr>`; }); document.getElementById('historyBody').innerHTML = html + '</tbody></table>'; }
+    function renderHistoryChart() { const ctx = document.getElementById('historyChart').getContext('2d'); if(historyChartInstance) historyChartInstance.destroy(); historyChartInstance = new Chart(ctx, { type: 'line', data: { labels: fullHistory.map(d => d.date), datasets: [{ label: 'المبيعات', data: fullHistory.map(d => d.total), borderColor: '#4f46e5', tension: 0.4, fill: true, backgroundColor: 'rgba(79, 70, 229, 0.1)' }] }, options: { responsive: true, maintainAspectRatio: false } }); }
+    function toggleDetails(idx, src, prf) { const div = document.getElementById(prf + idx); div.classList.toggle('active'); if(div.classList.contains('active')) { const data = src === 'dailyLog' ? dailyLog[idx] : fullHistory[idx]; let inner = '<ul style="margin:0; padding-right:20px;">'; data.details.forEach(it => { inner += `<li style="margin-bottom:5px;">${it.time} - ${it.note}: <b>${it.price} دج</b></li>`; }); div.innerHTML = inner + '</ul>'; } }
+    function openDebtLatent() { document.getElementById('debtModal').style.display = 'block'; let all = []; dailyLog.forEach(day => { day.details.filter(i => i.type === 'debt').forEach(d => all.push({...d, date: day.date})); }); currentDayItems.filter(i => i.type === 'debt').forEach(d => all.push({...d, date: "اليوم"})); let html = '<table><thead><tr><th>📅 التاريخ</th><th>📝 البيان</th><th>💵 المبلغ</th></tr></thead><tbody>'; all.forEach(d => { html += `<tr><td>${d.date}</td><td>${d.note}</td><td><b>${d.price} دج</b></td></tr>`; }); document.getElementById('debtListBody').innerHTML = html + '</tbody></table>'; }
     function closeArchive() { document.getElementById('archiveModal').style.display = 'none'; }
-    function renderArchive() {
-        const totalAllSales = dailyLog.reduce((acc, curr) => acc + curr.total, 0);
-        const totalAllExps = dailyLog.reduce((acc, curr) => acc + curr.expenses, 0);
-        const netValue = totalAllSales - totalAllExps;
-
-        document.getElementById('archiveSummary').innerHTML = `
-            <div class="summary-box"><span>💰 المبيعات</span><div>${totalAllSales.toLocaleString()} دج</div></div>
-            <div class="summary-box"><span>💸 المصروفات</span><div>${totalAllExps.toLocaleString()} دج</div></div>
-            <div class="summary-box"><span>📈 الصافي</span><div>${netValue.toLocaleString()} دج</div></div>
-            <div class="summary-box" style="border:none; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;">
-                <button class="btn btn-primary" style="margin:0; padding:5px 15px;" onclick="printArchiveSummary(${totalAllSales})">🖨️ طباعة التقرير</button>
-                <button class="btn btn-reset" style="margin:0; padding:5px 15px; width:100%;" onclick="resetWeek()">🔄 restart</button>
-            </div>
-        `;
-        let html = '<table><thead><tr><th>📅 التاريخ</th><th>💰 المبيعات</th><th>💸 المصروفات</th><th>📈 الصافي</th><th>⚙️</th></tr></thead><tbody>';
-        dailyLog.slice().reverse().forEach((d, idx) => {
-            const realIdx = dailyLog.length - 1 - idx;
-            html += `<tr class="archive-row" onclick="toggleDetails(${realIdx}, 'dailyLog', 'details-')">
-                <td>${d.date} 🔽</td><td>${d.total.toLocaleString()}</td><td>${d.expenses.toLocaleString()}</td><td>${d.net.toLocaleString()}</td>
-                <td><button class="btn" style="background:var(--danger); color:white; padding:5px; width:auto;" onclick="event.stopPropagation(); deleteFromArchive(${realIdx})">🗑️</button></td>
-            </tr><tr><td colspan="5"><div id="details-${realIdx}" class="details-container">...</div></td></tr>`;
-        });
-        document.getElementById('archiveBody').innerHTML = dailyLog.length > 0 ? html + '</tbody></table>' : '<p style="text-align:center;">لا بيانات</p>';
-    }
-
-    function resetWeek() {
-        if(confirm("تصفير الأسبوع؟")) {
-            fullHistory = [...fullHistory, ...dailyLog];
-            localStorage.setItem('toutLesJoursLog', JSON.stringify(fullHistory));
-            dailyLog = []; localStorage.setItem('proShopLog', JSON.stringify(dailyLog));
-            renderArchive(); updateUI();
-        }
-    }
-
-    function printArchiveSummary(sales) {
-        const printArea = document.getElementById('receipt-print');
-        const salary = 6000; const totalAfterSalary = sales - salary;
-        printArea.innerHTML = `<div style="text-align:center; padding:30px; border:2px solid #000; font-family: sans-serif;" dir="rtl">
-            <h1>Cyber Mounir</h1><h3>تقرير المبيعات والراتب</h3><hr>
-            <p>المبيعات: ${sales.toLocaleString()} دج</p><p>الراتب: 6,000 دج</p><hr>
-            <h2>الصافي: ${totalAfterSalary.toLocaleString()} دج</h2>
-        </div>`;
-        window.print();
-    }
-
-    function printReceipt(price, note) {
-        const printArea = document.getElementById('receipt-print');
-        printArea.innerHTML = `<div style="text-align:center; padding:20px; border:1px solid #000;"><h2>Cyber Mounir</h2><p>${note}</p><h1>${price.toLocaleString()} دج</h1></div>`;
-        window.print();
-    }
-
-    function openFullHistory() { document.getElementById('historyModal').style.display = 'block'; renderFullHistory(); }
     function closeFullHistory() { document.getElementById('historyModal').style.display = 'none'; }
-    function renderFullHistory() {
-        if(fullHistory.length > 0) { document.getElementById('chartContainer').style.display = 'block'; renderHistoryChart(); }
-        let html = '<table><thead><tr><th>📅 التاريخ</th><th>💰 المبيعات</th><th>📈 الصافي</th></tr></thead><tbody>';
-        fullHistory.slice().reverse().forEach((d) => { html += `<tr><td>${d.date}</td><td>${d.total.toLocaleString()}</td><td>${d.net.toLocaleString()}</td></tr>`; });
-        document.getElementById('historyBody').innerHTML = html + '</tbody></table>';
-    }
-
-    function renderHistoryChart() {
-        const ctx = document.getElementById('historyChart').getContext('2d');
-        if(historyChartInstance) historyChartInstance.destroy();
-        historyChartInstance = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: fullHistory.map(d => d.date),
-                datasets: [{ label: 'المبيعات', data: fullHistory.map(d => d.total), borderColor: '#4f46e5', fill: false }]
-            }
-        });
-    }
-
-    function toggleDetails(idx, sourceArrayName, idPrefix) { 
-        const sourceArray = sourceArrayName === 'dailyLog' ? dailyLog : fullHistory;
-        const cont = document.getElementById(`${idPrefix}${idx}`);
-        cont.classList.toggle('active');
-        if(cont.classList.contains('active')) {
-            let inner = '<table>';
-            sourceArray[idx].details.forEach(it => { inner += `<tr><td>${it.time}</td><td>${it.note}</td><td>${it.price.toLocaleString()} دج</td></tr>`; });
-            cont.innerHTML = inner + '</table>';
-        }
-    }
-
-    function openDebtLatent() { document.getElementById('debtModal').style.display = 'block'; renderDebtLatent(); }
     function closeDebtModal() { document.getElementById('debtModal').style.display = 'none'; }
-    function renderDebtLatent() {
-        let allDebts = [];
-        dailyLog.forEach(day => { day.details.filter(item => item.type === 'debt').forEach(d => { allDebts.push({...d, date: day.date}); }); });
-        currentDayItems.filter(item => item.type === 'debt').forEach(d => { allDebts.push({...d, date: "اليوم"}); });
-        let html = '<table><tbody>';
-        allDebts.forEach((d) => { html += `<tr><td>${d.date}</td><td>${d.note}</td><td>${d.price.toLocaleString()} دج</td><td><button class="btn" onclick="settleGlobalDebt('${d.note}', ${d.price})">✅</button></td></tr>`; });
-        document.getElementById('debtListBody').innerHTML = html + '</tbody></table>';
-    }
-
-    function settleGlobalDebt(note, price) {
-        if(confirm(`تسديد ${price}؟`)) {
-            currentDayItems.push({ price: price, note: "تحصيل: " + note, time: "--:--", type: 'sale' });
-            dailyLog.forEach(day => { day.details = day.details.filter(i => !(i.type === 'debt' && i.note === note && i.price === price)); });
-            currentDayItems = currentDayItems.filter(i => !(i.type === 'debt' && i.note === note && i.price === price));
-            localStorage.setItem('proShopLog', JSON.stringify(dailyLog)); updateUI(); renderDebtLatent();
-        }
-    }
-
-    function sellCard(provider) {
-        cardSalesTotal += 110;
-        localStorage.setItem('cardSalesTotal', cardSalesTotal);
-        updateCardUI();
-    }
-    function updateCardUI() { document.getElementById('cardSalesDisplay').innerText = cardSalesTotal.toLocaleString() + " دج"; }
-    function resetCardStats() { if(confirm("تصفير الفليكسي؟")) { cardSalesTotal = 0; localStorage.setItem('cardSalesTotal', 0); updateCardUI(); } }
-    function deleteFromArchive(idx) { if(confirm("حذف؟")) { dailyLog.splice(idx, 1); localStorage.setItem('proShopLog', JSON.stringify(dailyLog)); renderArchive(); } }
-
-    window.onload = function() { updateUI(); updateCardUI(); };
+    function deleteArchive(idx) { if(confirm("حذف هذا اليوم؟")) { dailyLog.splice(idx, 1); localStorage.setItem('proShopLog', JSON.stringify(dailyLog)); openArchive(); } }
+    function saveNotes() { localStorage.setItem('dailyNotes', document.getElementById('dailyNotes').value); }
+    function downloadBackup() { const data = JSON.stringify({dailyLog, fullHistory, currentDayItems, cardSalesTotal}); const blob = new Blob([data], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'cyber_backup.json'; a.click(); }
+    function toggleCardPrivacy(id) { cardPrivacy[id] = !cardPrivacy[id]; updateUI(); }
+    window.onload = () => { updateUI(); document.getElementById('cardSalesDisplay').innerText = cardSalesTotal.toLocaleString() + " دج"; document.getElementById('dailyNotes').value = localStorage.getItem('dailyNotes') || ""; };
 </script>
 </body>
 </html>
