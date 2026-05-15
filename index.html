@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Mounir - نظام إدارة السيبر</title>
+    <title>CYBER MOUNIR</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -120,6 +120,23 @@
         .details-container.active { display: block; animation: slideUp 0.3s ease; }
         #receipt-print { display: none; }
         @media print { body * { visibility: hidden; } #receipt-print, #receipt-print * { visibility: visible; } #receipt-print { display: block; position: absolute; left: 0; top: 0; width: 100%; text-align: center; } }
+        
+        /* تصميم جدول عرض العدادات المفصولة */
+        .flexy-counters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+            background: var(--main-bg);
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+        .flexy-counter-box {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body data-theme="light">
@@ -184,18 +201,22 @@
         </div>
         <button class="btn btn-debt" onclick="processEntry('debt')">📌 تسجيل دين</button>
         
-        <!-- 📱 قسم الفليكسي المحدث مع زر الاستعادة 📱 -->
+        <!-- 📱 قسم الفليكسي المحدث بالعدادات المنفصلة 📱 -->
         <div style="margin-top:20px; padding-top:20px; border-top:2px dashed var(--border);">
             <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
-                <button class="btn" style="background:#ed1c24; color:white; font-size: 0.85rem;" onclick="sellCard('أوريدو')">Ooredoo</button>
-                <button class="btn" style="background:#1ab248; color:white; font-size: 0.85rem;" onclick="sellCard('موبيليس')">Mobilis</button>
-                <button class="btn" style="background:#ec1b23; color:white; font-size: 0.85rem;" onclick="sellCard('جيزي')">Djezzy</button>
+                <button class="btn" style="background:#ed1c24; color:white; font-size: 0.85rem;" onclick="sellCard('Ooredoo')">Ooredoo</button>
+                <button class="btn" style="background:#1ab248; color:white; font-size: 0.85rem;" onclick="sellCard('Mobilis')">Mobilis</button>
+                <button class="btn" style="background:#ec1b23; color:white; font-size: 0.85rem;" onclick="sellCard('Djezzy')">Djezzy</button>
             </div>
             
-            <div id="cardSalesDisplay" style="text-align:center; font-weight:bold; margin:15px 0; font-size: 1.2rem; color:var(--primary);">0 دج</div>
+            <!-- شبكة عرض العدادات المنفصلة الثلاثة -->
+            <div class="flexy-counters-grid">
+                <div class="flexy-counter-box" style="color: #ed1c24;">أوريدو:<br><span id="countOoredoo">0</span> دج</div>
+                <div class="flexy-counter-box" style="color: #1ab248;">موبيليس:<br><span id="countMobilis">0</span> دج</div>
+                <div class="flexy-counter-box" style="color: #ec1b23;">جيزي:<br><span id="countDjezzy">0</span> دج</div>
+            </div>
             
-            <!-- زر تصفير واستعادة عداد الفليكسي -->
-            <button class="btn" style="background:#475569; color:white; font-size:0.9rem; padding:10px;" onclick="resetCardSales()">🔄 استعادة وتصـفير الفليكسي</button>
+            <button class="btn" style="background:#475569; color:white; font-size:0.9rem; padding:10px;" onclick="resetCardSales()">------🔄----- </button>
         </div>
         
         <button class="btn btn-primary" style="background:linear-gradient(to right, #f59e0b, #d97706); margin-top:15px;" onclick="closeDay()">💾 ترحيل وإنهاء اليوم</button>
@@ -212,7 +233,9 @@
     let dailyLog = JSON.parse(localStorage.getItem('proShopLog')) || [];
     let fullHistory = JSON.parse(localStorage.getItem('toutLesJoursLog')) || [];
     let currentDayItems = JSON.parse(localStorage.getItem('proShopCurrent')) || [];
-    let cardSalesTotal = parseFloat(localStorage.getItem('cardSalesTotal')) || 0;
+    
+    // استعادة العدادات المنفصلة من الذاكرة المحلية
+    let flexySales = JSON.parse(localStorage.getItem('flexySalesSeparated')) || { Ooredoo: 0, Mobilis: 0, Djezzy: 0 };
     let historyChartInstance = null;
 
     function checkLogin() {
@@ -257,26 +280,35 @@
             html += `<tr><td>${item.time}</td><td>${item.type === 'expense' ? '🚫 ' : (item.type === 'debt' ? '📌 ' : '✅ ')}${item.note}</td><td style="color:${item.type === 'expense' ? 'var(--danger)' : (item.type === 'debt' ? 'var(--debt)' : 'inherit')}"><b>${item.price.toLocaleString()}</b></td><td>${item.type === 'debt' ? `<button onclick="collectDebt(${rIdx})" style="background:var(--accent); color:white; border:none; padding:6px 10px; border-radius:8px; cursor:pointer;">قبض</button>` : ''}<button onclick="deleteItem(${rIdx})" style="background:none; border:none; cursor:pointer; color:var(--danger); margin-right:10px;">🗑️</button></td></tr>`;
         });
         document.getElementById('currentDayTable').innerHTML = html + '</tbody></table>';
+        
+        // تحديث أرقام العدادات المفصولة على الشاشة
+        document.getElementById('countOoredoo').innerText = flexySales.Ooredoo.toLocaleString();
+        document.getElementById('countMobilis').innerText = flexySales.Mobilis.toLocaleString();
+        document.getElementById('countDjezzy').innerText = flexySales.Djezzy.toLocaleString();
     }
 
     function collectDebt(idx) { if(confirm("هل تم استلام مبلغ الدين؟")) { currentDayItems[idx].type = 'sale'; updateUI(); } }
     function deleteItem(idx) { if(confirm("هل أنت متأكد من حذف هذه العملية؟")) { currentDayItems.splice(idx, 1); updateUI(); } }
     
-    // وظائف الفليكسي
-    function sellCard(provider) { cardSalesTotal += 110; localStorage.setItem('cardSalesTotal', cardSalesTotal); document.getElementById('cardSalesDisplay').innerText = cardSalesTotal.toLocaleString() + " دج"; }
+    // وظيفة تسجيل الفليكسي حسب الشريحة المحددة
+    function sellCard(provider) { 
+        flexySales[provider] += 110; 
+        localStorage.setItem('flexySalesSeparated', JSON.stringify(flexySales)); 
+        updateUI();
+    }
     
-    // دالة استعادة وتصفير عداد الفليكسي المضافة
+    // تصفير العدادات الثلاثة معاً
     function resetCardSales() {
-        if(confirm("هل أنت متأكد من تصفير إجمالي عداد الفليكسي؟")) {
-            cardSalesTotal = 0;
-            localStorage.setItem('cardSalesTotal', 0);
-            document.getElementById('cardSalesDisplay').innerText = "0 دج";
+        if(confirm("هل أنت متأكد ؟")) {
+            flexySales = { Ooredoo: 0, Mobilis: 0, Djezzy: 0 };
+            localStorage.setItem('flexySalesSeparated', JSON.stringify(flexySales));
+            updateUI();
         }
     }
 
     function closeDay() {
         if(currentDayItems.length === 0) return;
-        if(confirm("هل تريد ترحيل بيانات اليوم إلى الأرشيف وإفراغ القائمة?")) {
+        if(confirm("هل انت متأكد?")) {
             const s = currentDayItems.filter(i => i.type === 'sale').reduce((acc, i) => acc + i.price, 0);
             const e = currentDayItems.filter(i => i.type === 'expense').reduce((acc, i) => acc + i.price, 0);
             dailyLog.push({ date: new Date().toLocaleDateString('ar-DZ'), total: s, expenses: e, net: s-e, details: [...currentDayItems] });
@@ -312,9 +344,9 @@
     function closeDebtModal() { document.getElementById('debtModal').style.display = 'none'; }
     function deleteArchive(idx) { if(confirm("حذف هذا اليوم؟")) { dailyLog.splice(idx, 1); localStorage.setItem('proShopLog', JSON.stringify(dailyLog)); openArchive(); } }
     function saveNotes() { localStorage.setItem('dailyNotes', document.getElementById('dailyNotes').value); }
-    function downloadBackup() { const data = JSON.stringify({dailyLog, fullHistory, currentDayItems, cardSalesTotal}); const blob = new Blob([data], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'cyber_backup.json'; a.click(); }
+    function downloadBackup() { const data = JSON.stringify({dailyLog, fullHistory, currentDayItems, flexySales}); const blob = new Blob([data], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'cyber_backup.json'; a.click(); }
     function toggleCardPrivacy(id) { cardPrivacy[id] = !cardPrivacy[id]; updateUI(); }
-    window.onload = () => { updateUI(); document.getElementById('cardSalesDisplay').innerText = cardSalesTotal.toLocaleString() + " دج"; document.getElementById('dailyNotes').value = localStorage.getItem('dailyNotes') || ""; };
+    window.onload = () => { updateUI(); document.getElementById('dailyNotes').value = localStorage.getItem('dailyNotes') || ""; };
 </script>
 </body>
 </html>
