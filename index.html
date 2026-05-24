@@ -27,7 +27,6 @@
             height: 100vh; overflow: hidden; color: var(--text-main); transition: 0.3s;
         }
 
-        
         .app-container {
             display: none;
             width: 100%;
@@ -37,23 +36,30 @@
             display: flex;
         }
 
-        
-        .sidebar { animation: slideLeft 0.8s var(--tg-soft) both; width: 260px; background: var(--sidebar-bg); color: white; padding: 25px 18px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
-        .stat-card { animation: zoomIn 0.6s var(--tg-bounce) both; background: var(--card-bg); padding: 20px; text-align: center; position: relative; }
-        .table-container { animation: slideUp 0.7s var(--tg-soft) both; animation-delay: 0.3s; background: var(--card-bg); padding: 25px; }
-        .action-card { animation: slideUp 0.7s var(--tg-soft) both; animation-delay: 0.4s; background: var(--card-bg); padding: 25px; }
+        .sidebar {
+            animation: slideLeft 0.8s var(--tg-soft) both;
+            width: 260px; background: var(--sidebar-bg); color: white; padding: 25px 18px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
+        }
+        .stat-card {
+            animation: zoomIn 0.6s var(--tg-bounce) both; background: var(--card-bg); padding: 20px;
+            text-align: center; position: relative;
+        }
+        .table-container {
+            animation: slideUp 0.7s var(--tg-soft) both;
+            animation-delay: 0.3s; background: var(--card-bg); padding: 25px;
+        }
+        .action-card {
+            animation: slideUp 0.7s var(--tg-soft) both;
+            animation-delay: 0.4s; background: var(--card-bg); padding: 25px;
+        }
 
         @keyframes slideLeft { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-        .stat-card:nth-child(1) { animation-delay: 0.1s; }
-        .stat-card:nth-child(2) { animation-delay: 0.2s; }
-        .stat-card:nth-child(3) { animation-delay: 0.3s; }
-        .stat-card:nth-child(4) { animation-delay: 0.4s; }
-
         .stat-card, .action-card, .table-container {
-            border-radius: 20px; border: 1px solid var(--border);
+            border-radius: 20px;
+            border: 1px solid var(--border);
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
             transition: 0.3s var(--tg-soft);
         }
@@ -63,7 +69,8 @@
             transition: all 0.2s var(--tg-soft) !important;
             border-radius: 12px; font-weight: 600; letter-spacing: 0.5px;
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            width: 100%; padding: 14px; border: none; cursor: pointer;
+            width: 100%; padding: 14px; border: none;
+            cursor: pointer;
         }
         .btn:active { transform: scale(0.94); }
         .btn:hover { filter: brightness(1.15); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
@@ -73,14 +80,13 @@
         td { padding: 15px; border-bottom: 1px solid var(--border); transition: 0.2s; text-align: right; }
         tr:hover td { background: rgba(79, 70, 229, 0.05); }
 
-      
         #loginOverlay { 
-            position: fixed; 
+            position: fixed;
             inset: 0; 
             background: linear-gradient(-45deg, #0b0f19, #4b5563, #312e81, #115e59, #854d0e);
             background-size: 400% 400%;
             animation: customFastGradient 10s ease infinite;
-            display: flex; 
+            display: flex;
             align-items: center; 
             justify-content: center; 
             z-index: 9999; 
@@ -93,14 +99,14 @@
         }
 
         .login-box { 
-            background: rgba(15, 23, 42, 0.85); 
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 40px; 
             border-radius: 28px; 
             width: 360px; 
-            text-align: center; 
+            text-align: center;
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6); 
         }
         
@@ -131,65 +137,28 @@
         #receipt-print { display: none; }
         
         .flexy-counters-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-            background: var(--main-bg);
-            padding: 10px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; background: var(--main-bg); padding: 10px; border-radius: 12px; border: 1px solid var(--border);
         }
-        .flexy-counter-box {
-            text-align: center;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
+        .flexy-counter-box { text-align: center; font-size: 0.9rem; font-weight: bold; }
 
-        
         .product-form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            background: rgba(79, 70, 229, 0.04);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: rgba(79, 70, 229, 0.04); padding: 20px; border-radius: 16px; border: 1px solid var(--border);
         }
-        .product-input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .product-input-group.full-width {
-            grid-column: span 2;
-        }
-        .product-input-group label {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-sub);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .product-input-group { display: flex; flex-direction: column; gap: 6px; }
+        .product-input-group.full-width { grid-column: span 2; }
+        .product-input-group label { font-size: 0.85rem; font-weight: 700; color: var(--text-sub); display: flex; align-items: center; gap: 6px; }
 
-        
         .stock-btn {
-            border: none;
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
+            border: none; width: 28px; height: 28px; border-radius: 6px; font-weight: bold; font-size: 1.1rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s;
         }
         .stock-btn.plus { background-color: rgba(16, 185, 129, 0.15); color: #10b981; }
         .stock-btn.minus { background-color: rgba(244, 63, 94, 0.15); color: #f43f5e; }
         .stock-btn:hover { transform: scale(1.1); filter: brightness(0.9); }
+
+        /* ستايل لوحة المالك السرية */
+        .admin-panel {
+            margin-top: 20px; background: rgba(244, 63, 94, 0.1); border: 1px dashed rgba(244, 63, 94, 0.4); border-radius: 16px; padding: 15px; display: none;
+        }
 
         @media (max-width: 1024px) {
             .main-content { grid-template-columns: 1fr; }
@@ -203,21 +172,58 @@
             #receipt-print, #receipt-print * { visibility: visible; } 
             #receipt-print { display: block; position: absolute; left: 0; top: 0; width: 100%; text-align: center; } 
         }
+
+        .auth-tabs {
+            display: flex; background: rgba(0, 0, 0, 0.3); border-radius: 12px; padding: 4px; margin-bottom: 25px; border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .auth-tab {
+            flex: 1; background: none; border: none; color: #94a3b8; padding: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; border-radius: 8px; transition: 0.3s var(--tg-soft);
+        }
+        .auth-tab.active {
+            background: rgba(255, 255, 255, 0.15); color: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .auth-form-content {
+            display: none; opacity: 0; transform: translateY(10px); transition: 0.3s var(--tg-soft);
+        }
+        .auth-form-content.active {
+            display: block; opacity: 1; transform: translateY(0);
+        }
     </style>
 </head>
 <body data-theme="light">
 
-
 <div id="loginOverlay">
     <div class="login-box">
         <h1>Cyber Mounir</h1>
-        <input type="text" id="username" placeholder="اسم المستخدم" style="background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255,255,255,0.15);">
-        <input type="password" id="password" placeholder="كلمة المرور" style="background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255,255,255,0.15);">
-        <button class="btn btn-primary" style="background: linear-gradient(to right, #16a34a, #10b981); color: #ffffff; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onclick="checkLogin()">دخول النظام</button>
+        
+        <div class="auth-tabs">
+            <button id="tabSignIn" class="auth-tab active" onclick="switchAuthTab('signin')">تسجيل الدخول</button>
+            <button id="tabSignUp" class="auth-tab" onclick="switchAuthTab('signup')">إنشاء حساب جديد</button>
+        </div>
+
+        <div id="signInForm" class="auth-form-content active">
+            <input type="text" id="username" placeholder="اسم المستخدم أو الإيميل" style="background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255,255,255,0.15);">
+            <input type="password" id="password" placeholder="كلمة المرور" style="background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255,255,255,0.15);">
+            <button class="btn btn-primary" style="background: linear-gradient(to right, #4f46e5, #818cf8); color: #ffffff; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onclick="checkLogin()">دخول النظام</button>
+            
+            <div id="adminPanel" class="admin-panel">
+                <p style="color: #f43f5e; font-size: 0.85rem; font-weight: bold; margin: 0 0 10px 0;">🛠️ لوحة تحكم المالك السري</p>
+                <div id="activeAccountInfo" style="color: #fff; font-size: 0.8rem; margin-bottom: 10px; text-align: right; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px;"></div>
+                <button class="btn btn-danger" style="padding: 8px; font-size: 0.85rem;" onclick="deleteUserAccountByAdmin()">🗑️ حذف حساب المشترك نهائياً</button>
+            </div>
+        </div>
+
+        <div id="signUpForm" class="auth-form-content">
+            <input type="text" id="newShopName" placeholder="🏪 اسم المحل / المكتبة" style="background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255,255,255,0.15);">
+            <input type="text" id="newEmail" placeholder="📧 اسم المستخدم للـ Log in" style="background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255,255,255,0.15);">
+            <input type="tel" id="newPhone" placeholder="📞 رقم الهاتف" style="background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255,255,255,0.15);">
+            <input type="password" id="newPassword" placeholder="🔒 كلمة المرور" style="background: rgba(255, 255, 255, 0.08); color: #fff; border-color: rgba(255,255,255,0.15);">
+            <button class="btn btn-primary" style="background: linear-gradient(to right, #10b981, #059669); color: #ffffff; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.3);" onclick="handleCreateAccount()">إنشاء الحساب الآن ✨</button>
+        </div>
+
         <p id="loginError" style="color: #f87171; font-weight: bold; display: none; margin-top: 15px; text-shadow: 0 1px 5px rgba(0,0,0,0.5);">بيانات الدخول غير صحيحة</p>
     </div>
 </div>
-
 
 <div class="app-container" id="appContainer">
     <div class="sidebar">
@@ -228,15 +234,12 @@
         <button class="btn" style="background:#d946ef; color:white;" onclick="downloadBackup()">💾 حفظ نسخة</button>
         <button class="btn" style="background:#1e293b; border:1px solid #334155; color:white;" onclick="openFullHistory()">📁 tout les jours</button>
         
-        
         <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.2); margin-top: 5px;">
             <label style="font-size: 0.8rem; color: #cbd5e1; display: block; margin-bottom: 6px; text-align: center;">📦SCAN (Scanner):</label>
             <input type="text" id="barcodeScannerInput" placeholder="|||||||||||||||||||||" onkeypress="handleBarcodeScan(event)" style="margin-bottom: 0; background: rgba(0,0,0,0.2); color: #fff; border-color: rgba(255,255,255,0.2); text-align: center;">
         </div>
 
-        
         <button class="btn" style="background:#0284c7; color:white; margin-top: 5px;" onclick="openProductsModal()">📦 إدارة ومخزن السلع</button>
-
         <textarea id="dailyNotes" rows="4" placeholder="اكتب ملاحظاتك هنا..." oninput="saveNotes()" style="margin-top:10px;"></textarea>
         <button class="btn btn-danger" style="margin-top:auto" onclick="logout()">🔒 تسجيل الخروج</button>
     </div>
@@ -280,74 +283,77 @@
             </div>
             <button class="btn btn-debt" onclick="processEntry('debt')">📌 تسجيل دين</button>
             
-            <!-- 📱 قسم الفليكسي 📱 -->
             <div style="margin-top:20px; padding-top:20px; border-top:2px dashed var(--border);">
                 <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
                     <button class="btn" style="background:#ed1c24; color:white; font-size: 0.85rem;" onclick="sellCard('Ooredoo')">Ooredoo</button>
                     <button class="btn" style="background:#1ab248; color:white; font-size: 0.85rem;" onclick="sellCard('Mobilis')">Mobilis</button>
                     <button class="btn" style="background:#ec1b23; color:white; font-size: 0.85rem;" onclick="sellCard('Djezzy')">Djezzy</button>
                 </div>
-                
                 <div class="flexy-counters-grid">
                     <div class="flexy-counter-box" style="color: #ed1c24;">أوريدو:<br><span id="countOoredoo">0</span> دج</div>
                     <div class="flexy-counter-box" style="color: #1ab248;">موبيليس:<br><span id="countMobilis">0</span> دج</div>
                     <div class="flexy-counter-box" style="color: #ec1b23;">جيزي:<br><span id="countDjezzy">0</span> دج</div>
                 </div>
-                
                 <button class="btn" style="background:#475569; color:white; font-size:0.9rem; padding:10px;" onclick="resetCardSales()">------🔄----- </button>
             </div>
-            
             <button class="btn btn-primary" style="background:linear-gradient(to right, #f59e0b, #d97706); margin-top:15px;" onclick="closeDay()">💾 ترحيل وإنهاء اليوم</button>
         </div>
     </div>
 </div>
 
-<!-- النوافذ المنبثقة Modals -->
 <div id="archiveModal" class="modal"><div class="modal-content"><span style="float:left; cursor:pointer; font-size:28px;" onclick="closeArchive()">✖</span><h3>📂 أرشيف الأسبوع</h3><div id="archiveSummary" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:15px; margin-bottom:20px;"></div><div id="archiveBody"></div></div></div>
 <div id="historyModal" class="modal"><div class="modal-content"><span style="float:left; cursor:pointer; font-size:28px;" onclick="closeFullHistory()">✖</span><h3>📁 الأرشيف الشامل: tout les jours</h3><div style="height: 300px; margin-bottom: 25px;"><canvas id="historyChart"></canvas></div><div id="historyBody"></div></div></div>
 <div id="debtModal" class="modal"><div class="modal-content"><span style="float:left; cursor:pointer; font-size:28px;" onclick="closeDebtModal()">✖</span><h3>📌 قائمة الديون غير المحصلة</h3><div id="debtListBody"></div></div></div>
 
-
 <div id="productsModal" class="modal">
     <div class="modal-content" style="max-width: 750px; padding: 30px; border-radius: 28px;">
         <span style="float:left; cursor:pointer; font-size:24px; background: rgba(0,0,0,0.05); padding: 5px 12px; border-radius: 50%;" onclick="closeProductsModal()">✖</span>
-        
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
             <span style="font-size: 2rem;">📦</span>
             <h3 style="margin: 0; color: var(--primary); font-size: 1.4rem;">إضافة وتحديث سلع المخزن الذكي</h3>
         </div>
-        
         <div class="product-form-grid">
             <div class="product-input-group full-width">
                 <label>🔍 SKANI HNA :</label>
                 <input type="text" id="newProdCode" placeholder="أدخل أو امسح رقم كود البار للمنتج" style="margin-bottom: 0;">
             </div>
-            
             <div class="product-input-group full-width">
                 <label>📝 اسم السلعة / المنتج:</label>
-                <input type="text" id="newProdName" placeholder="مثال: كراس 64 صفحة، قلم جاف، سماعات..." style="margin-bottom: 0;">
+                <input type="text" id="newProdName" placeholder="مثال: كراس..." style="margin-bottom: 0;">
             </div>
-            
             <div class="product-input-group">
                 <label>💵 سعر البيع :</label>
                 <input type="number" id="newProdPrice" placeholder="المبلغ بالدج" style="margin-bottom: 0;">
             </div>
-            
             <div class="product-input-group">
                 <label>🔢 الكمية المتاحة حالياً:</label>
                 <input type="number" id="newProdQty" placeholder="العدد في الستوك" value="1" style="margin-bottom: 0;">
             </div>
-            
             <div style="grid-column: span 2; margin-top: 5px;">
-                <button class="btn btn-primary" style="background: var(--primary); font-weight: 700; padding: 15px;" onclick="addNewProductToDB()">✨ حفظ السلعة بشكل احترافي في الذاكرة</button>
+                <button class="btn btn-primary" style="background: var(--primary); font-weight: 700; padding: 15px;" onclick="addNewProductToDB()">✨ حفظ السلعة في الذاكرة</button>
             </div>
         </div>
-
-        <h4 style="margin: 25px 0 12px 0; border-top: 2px dashed var(--border); padding-top: 20px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
-            قائمة السلع المخزنةاً:
-        </h4>
-        
+        <h4 style="margin: 25px 0 12px 0; border-top: 2px dashed var(--border); padding-top: 20px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">قائمة السلع المخزنة:</h4>
         <div id="productsTableContainer" style="max-height: 280px; overflow-y: auto; border: 1px solid var(--border); border-radius: 14px; background: var(--card-bg);"></div>
+    </div>
+</div>
+
+<div id="customAlertModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(15px); z-index: 10001; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+    <div id="customAlertBox" style="background: var(--card-bg); color: var(--text-main); padding: 30px; border-radius: 24px; border: 1px solid var(--border); width: 90%; max-width: 400px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4); transform: scale(0.8); transition: transform 0.3s;">
+        <div style="font-size: 3rem; margin-bottom: 15px;">⚠️</div>
+        <div id="customAlertMessage" style="margin: 0 0 20px 0; font-size: 1.1rem; font-weight: 600; line-height: 1.6;"></div>
+        <button id="customAlertBtnClose" class="btn btn-primary" style="padding: 12px 24px; width: auto; min-width: 100px; margin: 0 auto;">حسناً</button>
+    </div>
+</div>
+
+<div id="customConfirmModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); z-index: 10000; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+    <div id="customConfirmBox" style="background: var(--card-bg); color: var(--text-main); padding: 30px; border-radius: 24px; border: 1px solid var(--border); width: 90%; max-width: 400px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4); transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);">
+        <div style="font-size: 3rem; margin-bottom: 15px;" id="customConfirmIcon">⚠️</div>
+        <h3 id="customConfirmMessage" style="margin: 0 0 20px 0; font-size: 1.25rem; font-weight: 700; line-height: 1.6;">هل أنت متأكد من القيام بهذه العملية؟</h3>
+        <div style="display: flex; gap: 12px; justify-content: center;">
+            <button id="customConfirmBtnYes" class="btn btn-danger" style="padding: 12px 24px; width: auto; min-width: 100px;">نعم، متأكد</button>
+            <button id="customConfirmBtnNo" class="btn" style="background: var(--main-bg); color: var(--text-main); border: 1px solid var(--border); padding: 12px 24px; width: auto; min-width: 100px;">إلغاء</button>
+        </div>
     </div>
 </div>
 
@@ -361,39 +367,184 @@
     let flexySales = JSON.parse(localStorage.getItem('flexySalesSeparated')) || { Ooredoo: 0, Mobilis: 0, Djezzy: 0 };
     let historyChartInstance = null;
 
-        let productsDatabase = JSON.parse(localStorage.getItem('productsDatabase')) || {
+    let productsDatabase = JSON.parse(localStorage.getItem('productsDatabase')) || {
         "6221234567890": { name: "كراس 64 صفحة", price: 60, qty: 10 },
-        "6229876543210": { name: "قلم جاف Bic", price: 35, qty: 50 },
-        "6225555555555": { name: "لوحة مفاتيح PC", price: 1200, qty: 5 },
-        "6220001112223": { name: "سماعة أذن غيمينغ", price: 2500, qty: 8 }
+        "6229876543210": { name: "قلم جاف Bic", price: 35, qty: 50 }
     };
 
-    // حفظ سلعة جديدة في قاعدة البيانات
+    // ====================================================================
+    /* 👇 منطق معالجة الحسابات ولوحة تحكم المالك السرية المحدثة 👇 */
+    // ====================================================================
+    
+    function switchAuthTab(type) {
+        const tabSignIn = document.getElementById('tabSignIn');
+        const tabSignUp = document.getElementById('tabSignUp');
+        const signInForm = document.getElementById('signInForm');
+        const signUpForm = document.getElementById('signUpForm');
+        document.getElementById('loginError').style.display = 'none';
+
+        if (type === 'signin') {
+            tabSignIn.classList.add('active');
+            tabSignUp.classList.remove('active');
+            signUpForm.classList.remove('active');
+            setTimeout(() => {
+                signUpForm.style.display = 'none';
+                signInForm.style.display = 'block';
+                checkAdminPanelVisibility(); // فحص إذا كنت المالك لإظهار لوحة الحذف
+                setTimeout(() => signInForm.classList.add('active'), 10);
+            }, 200);
+        } else {
+            tabSignUp.classList.add('active');
+            tabSignIn.classList.remove('active');
+            signInForm.classList.remove('active');
+            setTimeout(() => {
+                signInForm.style.display = 'none';
+                signUpForm.style.display = 'block';
+                setTimeout(() => signUpForm.classList.add('active'), 10);
+            }, 200);
+        }
+    }
+
+    // فحص ذكي لإظهار لوحة تحكم المالك وحذف الحسابات
+    function checkAdminPanelVisibility() {
+        const adminPanel = document.getElementById('adminPanel');
+        const activeAccountInfo = document.getElementById('activeAccountInfo');
+        const savedAccount = JSON.parse(localStorage.getItem('cyberMounirAccount'));
+        const currentInputUser = document.getElementById('username').value.trim();
+
+        // إذا كان المالك هو المستعرض الحالي في خانة الدخول أو أن المالك قام بتسجيل الدخول مسبقاً
+        if (currentInputUser === "Mou" || sessionStorage.getItem('isAdminMode') === 'true') {
+            if (savedAccount) {
+                adminPanel.style.display = 'block';
+                activeAccountInfo.innerHTML = `👤 مستخدم نشط: <b>${savedAccount.email}</b><br>🏪 اسم المحل: <b>${savedAccount.shopName}</b>`;
+            } else {
+                adminPanel.style.display = 'block';
+                activeAccountInfo.innerHTML = `ℹ️ لا توجد حسابات مشتركة منشأة حالياً في النظام.`;
+            }
+        } else {
+            adminPanel.style.display = 'none';
+        }
+    }
+
+    // الاستماع لمدخلات خانة اسم المستخدم لإظهار لوحة المالك فوراً عند كتابة اسمك "Mou"
+    document.getElementById('username').addEventListener('input', checkAdminPanelVisibility);
+
+    // إنشاء حساب جديد
+    function handleCreateAccount() {
+        const shopName = document.getElementById('newShopName').value.trim();
+        const email = document.getElementById('newEmail').value.trim(); 
+        const phone = document.getElementById('newPhone').value.trim();
+        const password = document.getElementById('newPassword').value;
+
+        if (!shopName || !email || !phone || !password) {
+            alert("الرجاء ملء جميع الخانات لتأسيس الحساب!");
+            return;
+        }
+
+        const accountData = { shopName, email, phone, password };
+        localStorage.setItem('cyberMounirAccount', JSON.stringify(accountData));
+
+        alert(`🏪 تم إنشاء الحساب بنجاح لـ (${shopName})!\nالآن يمكن للمشتري تسجيل الدخول باستخدام بياناته.`);
+        
+        document.getElementById('newShopName').value = '';
+        document.getElementById('newPhone').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('username').value = email;
+
+        switchAuthTab('signin');
+    }
+
+    // تسجيل الدخول والتحقق
+    function checkLogin() {
+        const u = document.getElementById('username').value.trim();
+        const p = document.getElementById('password').value;
+        const savedAccount = JSON.parse(localStorage.getItem('cyberMounirAccount'));
+
+        if (u === "Mou" && p === "1123") {
+            // دخول المالك الأساسي
+            sessionStorage.setItem('isAdminMode', 'true');
+            enterSystem();
+        } else if (savedAccount && u === savedAccount.email && p === savedAccount.password) {
+            // دخول الحساب المشترك (المشتري)
+            sessionStorage.removeItem('isAdminMode');
+            enterSystem();
+        } else { 
+            document.getElementById('loginError').innerText = "خطأ في اسم المستخدم أو كلمة المرور!";
+            document.getElementById('loginError').style.display = 'block';
+        }
+    }
+
+    function enterSystem() {
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.body.classList.add('logged-in');
+        sessionStorage.setItem('isLoggedIn', 'true');
+        updateSidebarShopName();
+    }
+
+    // 🛠️ دالة الحذف الخاصة بك (المالك الأساسي) لحذف حساب المشترك نهائياً
+    async function deleteUserAccountByAdmin() {
+        const savedAccount = JSON.parse(localStorage.getItem('cyberMounirAccount'));
+        if (!savedAccount) {
+            alert("لا يوجد حساب مشترك حالياً لحذفه!");
+            return;
+        }
+
+        const confirmDelete = await confirm(`هل أنت متأكد من حذف حساب (${savedAccount.shopName}) نهائياً؟ لن يتمكن المشتري من الدخول مجدداً!`);
+        if (confirmDelete) {
+            // حذف الحساب من الذاكرة تماماً
+            localStorage.removeItem('cyberMounirAccount');
+            alert("🗑️ تم حذف الحساب بنجاح واختفى من النظام تماماً!");
+            
+            // إعادة تصفير مدخلات واجهة الدخول وتحديث اللوحة السرية
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            checkAdminPanelVisibility();
+        }
+    }
+
+    function updateSidebarShopName() {
+        const savedAccount = JSON.parse(localStorage.getItem('cyberMounirAccount'));
+        const isAdmin = sessionStorage.getItem('isAdminMode') === 'true';
+        const sidebarTitle = document.querySelector('.sidebar h2');
+        
+        if (sidebarTitle) {
+            if (isAdmin) {
+                sidebarTitle.innerHTML = `👑 لوحة المالك (Mou)`;
+            } else if (savedAccount && savedAccount.shopName) {
+                sidebarTitle.innerHTML = `🏪 ${savedAccount.shopName}`;
+            } else {
+                sidebarTitle.innerHTML = `🏪 اللوحة الرئيسية`;
+            }
+        }
+    }
+
+    if(sessionStorage.getItem('isLoggedIn') === 'true') {
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.body.classList.add('logged-in');
+    }
+
+    // ======================================================= 
+    /* 👇 بقية دوال النظام التشغيلية تظل كما هي دقيقة ومثالية 👇 */
+    // =======================================================
     function addNewProductToDB() {
         const code = document.getElementById('newProdCode').value.trim();
         const name = document.getElementById('newProdName').value.trim();
         const price = parseFloat(document.getElementById('newProdPrice').value);
         const qty = parseInt(document.getElementById('newProdQty').value) || 0;
-
         if (!code || !name || isNaN(price)) {
             alert("الرجاء ملء خانة الكود والاسم والمبلغ بشكل صحيح!");
             return;
         }
-
         productsDatabase[code] = { name: name, price: price, qty: qty };
         localStorage.setItem('productsDatabase', JSON.stringify(productsDatabase));
-        
-        // تفريغ الحقول وإعادة تحديث الجدول
         document.getElementById('newProdCode').value = '';
         document.getElementById('newProdName').value = '';
         document.getElementById('newProdPrice').value = '';
         document.getElementById('newProdQty').value = '1';
-        
         renderProductsTable();
         alert("تم حفظ وتحديث السلعة بنجاح!");
     }
 
-    // زيادة الكمية (+) لإعادة الشحن السريع
     function increaseStock(code) {
         if (productsDatabase[code]) {
             productsDatabase[code].qty += 1;
@@ -402,7 +553,6 @@
         }
     }
 
-    // إنقاص الكمية (-) لإعادة الشحن السريع
     function decreaseStock(code) {
         if (productsDatabase[code]) {
             if (productsDatabase[code].qty > 0) {
@@ -413,9 +563,17 @@
         }
     }
 
-    // عرض جدول السلع داخل النافذة المنبثقة مع أزرار الشحن السريع
+    async function deleteProductFromDB(code) {
+        const confirmAction = await confirm("هل تريد حذف هذه السلعة نهائياً من قاعدة البيانات؟");
+        if (confirmAction) {
+            delete productsDatabase[code];
+            localStorage.setItem('productsDatabase', JSON.stringify(productsDatabase));
+            renderProductsTable();
+        }
+    }
+
     function renderProductsTable() {
-        let html = '<table><thead><tr style="background:rgba(0,0,0,0.02);"><th style="padding:12px;">كود بار</th><th style="padding:12px;">اسم السلعة</th><th style="padding:12px;">سعر البيع</th><th style="padding:12px; text-align:center;">الكمية (شحن)</th><th style="padding:12px; text-align:center;">إجراء</th></tr></thead><tbody>';
+        let html = '<table><thead><tr style="background:rgba(0,0,0,0.02);"><th style="padding:12px;">كود بار</th><th style="padding:12px;">اسم السلعة</th><th style="padding:12px;">سعر البيع</th><th style="padding:12px; text-align:center;">الكمية</th><th style="padding:12px; text-align:center;">إجراء</th></tr></thead><tbody>';
         for (let code in productsDatabase) {
             html += `<tr>
                 <td style="padding:12px; font-family:monospace; color:var(--text-sub); font-size:0.9rem;">${code}</td>
@@ -434,42 +592,23 @@
         document.getElementById('productsTableContainer').innerHTML = html + '</tbody></table>';
     }
 
-    function deleteProductFromDB(code) {
-        if (confirm("هل تريد حذف هذه السلعة نهائياً من قاعدة البيانات؟")) {
-            delete productsDatabase[code];
-            localStorage.setItem('productsDatabase', JSON.stringify(productsDatabase));
-            renderProductsTable();
-        }
-    }
-
-    function openProductsModal() {
-        document.getElementById('productsModal').style.display = 'block';
-        renderProductsTable();
-    }
+    function openProductsModal() { document.getElementById('productsModal').style.display = 'block'; renderProductsTable(); }
     function closeProductsModal() { document.getElementById('productsModal').style.display = 'none'; }
 
-    // معالجة قراءة السكنر وإضافتها تلقائياً للمبيعات مع منع العملية إذا نفدت الكمية
     function handleBarcodeScan(event) {
         if (event.keyCode === 13 || event.key === 'Enter') {
             const inputField = document.getElementById('barcodeScannerInput');
             const scannedCode = inputField.value.trim();
-            
             if (scannedCode === "") return;
-
             if (productsDatabase[scannedCode]) {
                 const product = productsDatabase[scannedCode];
-                
-                // التحقق مما إذا كانت الكمية قد نفدت
                 if (product.qty <= 0) {
                     alert(`⚠️ عذراً! لقد نفدت كمية السلعة (${product.name}) من المخزن. يرجى إعادة شحنها أولاً.`);
                     inputField.value = "";
                     return;
                 }
-                
-                // خصم كمية واحدة من المخزن بعد إتمام عملية البيع بنجاح
                 product.qty -= 1;
                 localStorage.setItem('productsDatabase', JSON.stringify(productsDatabase));
-                
                 processEntry('sale', product.price, product.name);
                 inputField.value = ""; 
             } else {
@@ -479,28 +618,7 @@
         }
     }
 
-    function checkLogin() {
-        const u = document.getElementById('username').value;
-        const p = document.getElementById('password').value;
-        if(u === "Mou" && p === "1123") {
-            document.getElementById('loginOverlay').style.display = 'none';
-            document.body.classList.add('logged-in');
-            sessionStorage.setItem('isLoggedIn', 'true');
-        } else { 
-            document.getElementById('loginError').style.display = 'block'; 
-        }
-    }
-    
-    if(sessionStorage.getItem('isLoggedIn') === 'true') {
-        document.getElementById('loginOverlay').style.display = 'none';
-        document.body.classList.add('logged-in');
-    }
-
-    function logout() { 
-        sessionStorage.removeItem('isLoggedIn'); 
-        location.reload(); 
-    }
-
+    function logout() { sessionStorage.clear(); location.reload(); }
     function toggleTheme() {
         const next = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         document.body.setAttribute('data-theme', next);
@@ -511,14 +629,11 @@
     function processEntry(type, priceVal = null, noteVal = null) {
         const p = priceVal !== null ? priceVal : parseFloat(document.getElementById('mainPrice').value); 
         const n = noteVal !== null ? noteVal : document.getElementById('mainNote').value;
-        
         if(!p || isNaN(p)) return;
-        
         const t = new Date().toLocaleTimeString('ar-DZ', {hour: '2-digit', minute:'2-digit'});
         currentDayItems.push({ price: p, note: n || "عملية", type: type, time: t });
-        
         if(priceVal === null) {
-            document.getElementById('mainPrice').value = ''; 
+            document.getElementById('mainPrice').value = '';
             document.getElementById('mainNote').value = '';
         }
         updateUI();
@@ -555,37 +670,15 @@
         document.getElementById('countDjezzy').innerText = flexySales.Djezzy.toLocaleString();
     }
 
-    function collectDebt(idx) { 
-        if(confirm("هل تم استلام مبلغ الدين؟")) { 
-            currentDayItems[idx].type = 'sale'; 
-            updateUI(); 
-        } 
-    }
+    async function collectDebt(idx) { if(await confirm("هل تم استلام مبلغ الدين؟")) { currentDayItems[idx].type = 'sale'; updateUI(); } }
+    async function deleteItem(idx) { if(await confirm("هل أنت متأكد من حذف هذه العملية؟")) { currentDayItems.splice(idx, 1); updateUI(); } }
     
-    function deleteItem(idx) { 
-        if(confirm("هل أنت متأكد من حذف هذه العملية؟")) { 
-            currentDayItems.splice(idx, 1); 
-            updateUI(); 
-        } 
-    }
-    
-    function sellCard(provider) { 
-        flexySales[provider] += 110; 
-        localStorage.setItem('flexySalesSeparated', JSON.stringify(flexySales)); 
-        processEntry('sale', 110, `فليكسي ${provider}`);
-    }
-    
-    function resetCardSales() {
-        if(confirm("هل أنت متأكد ؟")) {
-            flexySales = { Ooredoo: 0, Mobilis: 0, Djezzy: 0 };
-            localStorage.setItem('flexySalesSeparated', JSON.stringify(flexySales));
-            updateUI();
-        }
-    }
+    function sellCard(provider) { flexySales[provider] += 110; localStorage.setItem('flexySalesSeparated', JSON.stringify(flexySales)); processEntry('sale', 110, `فليكسي ${provider}`); }
+    async function resetCardSales() { if(await confirm("هل أنت متأكد ؟")) { flexySales = { Ooredoo: 0, Mobilis: 0, Djezzy: 0 }; localStorage.setItem('flexySalesSeparated', JSON.stringify(flexySales)); updateUI(); } }
 
-    function closeDay() {
+    async function closeDay() {
         if(currentDayItems.length === 0) return;
-        if(confirm("هل أنت متأكد ؟")) {
+        if(await confirm("هل أنت متأكد ؟")) {
             const s = currentDayItems.filter(i => i.type === 'sale').reduce((acc, i) => acc + i.price, 0);
             const e = currentDayItems.filter(i => i.type === 'expense').reduce((acc, i) => acc + i.price, 0);
             dailyLog.push({ date: new Date().toLocaleDateString('ar-DZ'), total: s, expenses: e, net: s-e, details: [...currentDayItems] });
@@ -604,10 +697,9 @@
             <div style="background:var(--main-bg); padding:15px; border-radius:15px; text-align:center;">💸 مصروفات<br><b>${te.toLocaleString()} دج</b></div>
             <div style="background:var(--main-bg); padding:15px; border-radius:15px; text-align:center;">📈 صافي<br><b>${(ts-te).toLocaleString()} دج</b></div>
             <div style="display:flex; flex-direction:column; gap:5px;">
-                <button class="btn btn-primary" style="padding:8px; font-size:0.8rem;" onclick="printReport(${ts})">🖨️ طباعة الفاتورة</button>
-                <button class="btn" style="padding:8px; font-size:0.8rem; background:var(--sidebar-bg); color:white;" onclick="resetWeek()">🔄 ترحيل للأسبوع</button>
+                <button class="btn btn-primary" style="padding:8px; font-size:0.8rem;" onclick="printReport(${ts})">🖨️ الفاتورة</button>
+                <button class="btn" style="padding:8px; font-size:0.8rem; background:var(--sidebar-bg); color:white;" onclick="resetWeek()">🔄 ترحيل</button>
             </div>`;
-        
         let html = '<table><thead><tr><th>📅 التاريخ</th><th>💰 المبيعات</th><th>⚙️ الإجراء</th></tr></thead><tbody>';
         dailyLog.slice().reverse().forEach((day, idx) => { 
             const rIdx = dailyLog.length - 1 - idx; 
@@ -625,95 +717,98 @@
         const salary = 4000;
         const finalRequired = sales >= salary ? (sales - salary) : 0;
         const printArea = document.getElementById('receipt-print');
-        printArea.innerHTML = `
-            <div style="text-align:center; padding:40px; border:3px solid #000; font-family:Segoe UI, sans-serif;" dir="rtl">
-                <h1>Cyber Mounir</h1>
-                <hr>
-                <h3>تقرير الأرباح النهائي</h3>
-                <p>إجمالي المبيعات المحققة: ${sales.toLocaleString()} دج</p>
-                <p>الراتب المخصوم للعمال: ${salary.toLocaleString()} دج</p>
-                <hr>
-                <h2>المبلغ الصافي المطلوب ترحيله للمالك: ${finalRequired.toLocaleString()} دج</h2>
-            </div>`;
+        printArea.innerHTML = `<div style="text-align:center; padding:40px; border:3px solid #000;" dir="rtl"><h1>Cyber Mounir</h1><hr><h3>تقرير الأرباح النهائي</h3><p>إجمالي المبيعات المحققة: ${sales.toLocaleString()} دج</p><p>الراتب المخصوم: ${salary.toLocaleString()} دج</p><hr><h2>المبلغ المطلوب ترحيله للمالك: ${finalRequired.toLocaleString()} دج</h2></div>`;
         window.print();
     }
 
-    function resetWeek() { 
-        if(confirm("نقل البيانات لـ tout les jours وتصفير الأسبوع؟")) { 
-            fullHistory = [...fullHistory, ...dailyLog]; 
-            localStorage.setItem('toutLesJoursLog', JSON.stringify(fullHistory)); 
-            dailyLog = []; 
-            localStorage.setItem('proShopLog', JSON.stringify(dailyLog)); 
-            closeArchive(); 
-        } 
-    }
-    
-    function openFullHistory() { 
-        document.getElementById('historyModal').style.display = 'block'; 
-        renderHistoryChart(); 
-        let html = '<table><thead><tr><th>📅 التاريخ</th><th>💰 المبيعات</th><th>📈 الصافي</th></tr></thead><tbody>'; 
-        fullHistory.slice().reverse().forEach(d => { 
-            html += `<tr><td>${d.date}</td><td>${d.total.toLocaleString()} دج</td><td>${d.net.toLocaleString()} دج</td></tr>`; 
-        }); 
-        document.getElementById('historyBody').innerHTML = html + '</tbody></table>'; 
-    }
+    async function resetWeek() { if(await confirm("نقل البيانات وتصفير الأسبوع؟")) { fullHistory = [...fullHistory, ...dailyLog]; localStorage.setItem('toutLesJoursLog', JSON.stringify(fullHistory)); dailyLog = []; localStorage.setItem('proShopLog', JSON.stringify(dailyLog)); closeArchive(); } }
+    function openFullHistory() { document.getElementById('historyModal').style.display = 'block'; renderHistoryChart(); let html = '<table><thead><tr><th>📅 التاريخ</th><th>💰 المبيعات</th><th>📈 الصافي</th></tr></thead><tbody>'; fullHistory.slice().reverse().forEach(d => { html += `<tr><td>${d.date}</td><td>${d.total.toLocaleString()} دج</td><td>${d.net.toLocaleString()} دج</td></tr>`; }); document.getElementById('historyBody').innerHTML = html + '</tbody></table>'; }
     
     function renderHistoryChart() { 
-        const ctx = document.getElementById('historyChart').getContext('2d'); 
+        const ctx = document.getElementById('historyChart').getContext('2d');
         if(historyChartInstance) historyChartInstance.destroy(); 
-        historyChartInstance = new Chart(ctx, { 
-            type: 'line', 
-            data: { 
-                labels: fullHistory.map(d => d.date), 
-                datasets: [{ label: 'المبيعات اليومية دج', data: fullHistory.map(d => d.total), borderColor: '#4f46e5', tension: 0.4, fill: true, backgroundColor: 'rgba(79, 70, 229, 0.1)' }] 
-            }, 
-            options: { responsive: true, maintainAspectRatio: false } 
-        }); 
+        historyChartInstance = new Chart(ctx, { type: 'line', data: { labels: fullHistory.map(d => d.date), datasets: [{ label: 'المبيعات اليومية دج', data: fullHistory.map(d => d.total), borderColor: '#4f46e5', tension: 0.4, fill: true, backgroundColor: 'rgba(79, 70, 229, 0.1)' }] }, options: { responsive: true, maintainAspectRatio: false } });
     }
     
-    function toggleDetails(idx, src, prf) { 
-        const div = document.getElementById(prf + idx); 
-        div.classList.toggle('active'); 
-        if(div.classList.contains('active')) { 
-            const data = src === 'dailyLog' ? dailyLog[idx] : fullHistory[idx]; 
-            let inner = '<ul style="margin:0; padding-right:20px; list-style-type: square;">'; 
-            data.details.forEach(it => { 
-                inner += `<li style="margin-bottom:5px;">${it.time} - ${it.note}: <b style="color:var(--primary);">${it.price.toLocaleString()} دج</b></li>`; 
-            }); 
-            div.innerHTML = inner + '</ul>'; 
-        } 
-    }
-    
-    function openDebtLatent() { 
-        document.getElementById('debtModal').style.display = 'block'; 
-        let all = []; 
-        dailyLog.forEach(day => { day.details.filter(i => i.type === 'debt').forEach(d => all.push({...d, date: day.date})); }); 
-        currentDayItems.filter(i => i.type === 'debt').forEach(d => all.push({...d, date: "اليوم"})); 
-        let html = '<table><thead><tr><th>📅 التاريخ</th><th>📝 البيان</th><th>💵 المبلغ</th></tr></thead><tbody>'; 
-        all.forEach(d => { html += `<tr><td>${d.date}</td><td>${d.note}</td><td><b>${d.price.toLocaleString()} دج</b></td></tr>`; }); 
-        document.getElementById('debtListBody').innerHTML = html + '</tbody></table>'; 
-    }
+    function toggleDetails(idx, src, prf) { const div = document.getElementById(prf + idx); div.classList.toggle('active'); if(div.classList.contains('active')) { const data = src === 'dailyLog' ? dailyLog[idx] : fullHistory[idx]; let inner = '<ul style="margin:0; padding-right:20px; list-style-type: square;">'; data.details.forEach(it => { inner += `<li style="margin-bottom:5px;">${it.time} - ${it.note}: <b style="color:var(--primary);">${it.price.toLocaleString()} دج</b></li>`; }); div.innerHTML = inner + '</ul>'; } }
+    function openDebtLatent() { document.getElementById('debtModal').style.display = 'block'; let all = []; dailyLog.forEach(day => { day.details.filter(i => i.type === 'debt').forEach(d => all.push({...d, date: day.date})); }); currentDayItems.filter(i => i.type === 'debt').forEach(d => all.push({...d, date: "اليوم"})); let html = '<table><thead><tr><th>📅 التاريخ</th><th>📝 البيان</th><th>💵 المبلغ</th></tr></thead><tbody>'; all.forEach(d => { html += `<tr><td>${d.date}</td><td>${d.note}</td><td><b>${d.price.toLocaleString()} دج</b></td></tr>`; }); document.getElementById('debtListBody').innerHTML = html + '</tbody></table>'; }
     
     function closeArchive() { document.getElementById('archiveModal').style.display = 'none'; }
     function closeFullHistory() { document.getElementById('historyModal').style.display = 'none'; }
     function closeDebtModal() { document.getElementById('debtModal').style.display = 'none'; }
-    
-    function deleteArchive(idx) { 
-        if(confirm("هل أنت متأكد من حذف بيانات هذا اليوم ؟")) { 
-            dailyLog.splice(idx, 1); 
-            localStorage.setItem('proShopLog', JSON.stringify(dailyLog)); 
-            openArchive(); 
-        } 
-    }
-    
+    async function deleteArchive(idx) { if(await confirm("هل أنت متأكد من حذف بيانات هذا اليوم ؟")) { dailyLog.splice(idx, 1); localStorage.setItem('proShopLog', JSON.stringify(dailyLog)); openArchive(); } }
     function saveNotes() { localStorage.setItem('dailyNotes', document.getElementById('dailyNotes').value); }
     function downloadBackup() { const data = JSON.stringify({dailyLog, fullHistory, currentDayItems, flexySales, productsDatabase}); const blob = new Blob([data], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'cyber_backup.json'; a.click(); }
     function toggleCardPrivacy(id) { cardPrivacy[id] = !cardPrivacy[id]; updateUI(); }
     
     window.onload = () => { 
-        updateUI(); 
+        updateUI();
+        if (sessionStorage.getItem('isLoggedIn') === 'true') updateSidebarShopName();
         document.getElementById('dailyNotes').value = localStorage.getItem('dailyNotes') || ""; 
+        checkAdminPanelVisibility();
     };
+</script>
+
+<script>
+    // نظام الـ Confirm المطور والمتحرك والمخصص للنظام
+    (function() {
+        let confirmResolve = null;
+        window.confirm = function(message) {
+            let icon = "⚠️";
+            if (message.includes("حذف") || message.includes("تصفير")) icon = "🗑️";
+            if (message.includes("إنهاء") || message.includes("ترحيل")) icon = "💾";
+            if (message.includes("استلام") || message.includes("قبض")) icon = "💰";
+
+            document.getElementById('customConfirmIcon').innerText = icon;
+            document.getElementById('customConfirmMessage').innerText = message;
+            const modal = document.getElementById('customConfirmModal');
+            const box = document.getElementById('customConfirmBox');
+            
+            modal.style.display = 'flex';
+            setTimeout(() => { modal.style.opacity = '1'; box.style.transform = 'scale(1)'; }, 10);
+            return new Promise((resolve) => { confirmResolve = resolve; });
+        };
+
+        document.getElementById('customConfirmBtnYes').addEventListener('click', function() { closeCustomConfirm(true); });
+        document.getElementById('customConfirmBtnNo').addEventListener('click', function() { closeCustomConfirm(false); });
+
+        function closeCustomConfirm(result) {
+            const modal = document.getElementById('customConfirmModal');
+            const box = document.getElementById('customConfirmBox');
+            modal.style.opacity = '0'; box.style.transform = 'scale(0.8)';
+            setTimeout(() => { modal.style.display = 'none'; if (confirmResolve) { confirmResolve(result); confirmResolve = null; } }, 300);
+        }
+    })();
+</script>
+
+<style>
+    @keyframes alertShake { 0%, 100% { transform: translateX(0) scale(1); } 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+    .alert-shake { animation: alertShake 0.5s ease; }
+</style>
+<script>
+    // نظام التنبيهات الذكي والمخصص
+    (function() {
+        window.alert = function(message) {
+            let messageHtml = message;
+            if (message.includes("نفدت") || message.includes("المخزن")) {
+                messageHtml = message.replace(/(?:\()(.*?)(?:\))/g, `<span style="color: #f43f5e; font-weight: 950; background: rgba(244, 63, 94, 0.15); padding: 4px 10px; margin: 0 4px; border-radius: 8px; border: 1px solid rgba(244, 63, 94, 0.2);"> $1 </span>`);
+            }
+            document.getElementById('customAlertMessage').innerHTML = messageHtml;
+            const modal = document.getElementById('customAlertModal');
+            const box = document.getElementById('customAlertBox');
+            
+            modal.style.display = 'flex';
+            setTimeout(() => { modal.style.opacity = '1'; box.style.transform = 'scale(1)'; box.classList.add('alert-shake'); }, 10);
+            setTimeout(() => { box.classList.remove('alert-shake'); }, 500);
+        };
+
+        document.getElementById('customAlertBtnClose').addEventListener('click', function() {
+            const modal = document.getElementById('customAlertModal');
+            const box = document.getElementById('customAlertBox');
+            modal.style.opacity = '0'; box.style.transform = 'scale(0.8)';
+            setTimeout(() => { modal.style.display = 'none'; }, 300);
+        });
+    })();
 </script>
 </body>
 </html>
