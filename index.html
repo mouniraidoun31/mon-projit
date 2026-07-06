@@ -73,7 +73,7 @@
             cursor: pointer;
         }
         .btn:active { transform: scale(0.94); }
-        .btn:hover { filter: brightness(1.15); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .btn:hover { filter: brightness(1.15); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: transparent; }
 
         table { width: 100%; border-radius: 12px; overflow: hidden; border-collapse: collapse; }
         th { background: var(--main-bg); text-transform: uppercase; letter-spacing: 1px; font-size: 0.75rem; padding: 15px; text-align: right; }
@@ -155,7 +155,6 @@
         .stock-btn.minus { background-color: rgba(244, 63, 94, 0.15); color: #f43f5e; }
         .stock-btn:hover { transform: scale(1.1); filter: brightness(0.9); }
 
-        /* ستايل لوحة المالك السرية */
         .admin-panel {
             margin-top: 20px; background: rgba(244, 63, 94, 0.1); border: 1px dashed rgba(244, 63, 94, 0.4); border-radius: 16px; padding: 15px; display: none;
         }
@@ -269,7 +268,10 @@
         </div>
 
         <div class="table-container">
-            <h3 style="margin-top: 0;">📊 السجل </h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0;">📊 السجل</h3>
+                <button class="btn btn-danger" style="width: auto; padding: 8px 16px; font-size: 0.85rem;" onclick="clearAllCurrentLog()">🗑️ مسح السجل بالكامل</button>
+            </div>
             <div id="currentDayTable"></div>
         </div>
 
@@ -372,10 +374,6 @@
         "6229876543210": { name: "قلم جاف Bic", price: 35, qty: 50 }
     };
 
-    // ====================================================================
-    /* 👇 منطق معالجة الحسابات ولوحة تحكم المالك السرية المحدثة 👇 */
-    // ====================================================================
-    
     function switchAuthTab(type) {
         const tabSignIn = document.getElementById('tabSignIn');
         const tabSignUp = document.getElementById('tabSignUp');
@@ -390,7 +388,7 @@
             setTimeout(() => {
                 signUpForm.style.display = 'none';
                 signInForm.style.display = 'block';
-                checkAdminPanelVisibility(); // فحص إذا كنت المالك لإظهار لوحة الحذف
+                checkAdminPanelVisibility();
                 setTimeout(() => signInForm.classList.add('active'), 10);
             }, 200);
         } else {
@@ -405,14 +403,12 @@
         }
     }
 
-    // فحص ذكي لإظهار لوحة تحكم المالك وحذف الحسابات
     function checkAdminPanelVisibility() {
         const adminPanel = document.getElementById('adminPanel');
         const activeAccountInfo = document.getElementById('activeAccountInfo');
         const savedAccount = JSON.parse(localStorage.getItem('cyberMounirAccount'));
         const currentInputUser = document.getElementById('username').value.trim();
 
-        // إذا كان المالك هو المستعرض الحالي في خانة الدخول أو أن المالك قام بتسجيل الدخول مسبقاً
         if (currentInputUser === "Mou" || sessionStorage.getItem('isAdminMode') === 'true') {
             if (savedAccount) {
                 adminPanel.style.display = 'block';
@@ -426,10 +422,8 @@
         }
     }
 
-    // الاستماع لمدخلات خانة اسم المستخدم لإظهار لوحة المالك فوراً عند كتابة اسمك "Mou"
     document.getElementById('username').addEventListener('input', checkAdminPanelVisibility);
 
-    // إنشاء حساب جديد
     function handleCreateAccount() {
         const shopName = document.getElementById('newShopName').value.trim();
         const email = document.getElementById('newEmail').value.trim(); 
@@ -454,18 +448,15 @@
         switchAuthTab('signin');
     }
 
-    // تسجيل الدخول والتحقق
     function checkLogin() {
         const u = document.getElementById('username').value.trim();
         const p = document.getElementById('password').value;
         const savedAccount = JSON.parse(localStorage.getItem('cyberMounirAccount'));
 
         if (u === "Mou" && p === "1123") {
-            // دخول المالك الأساسي
             sessionStorage.setItem('isAdminMode', 'true');
             enterSystem();
         } else if (savedAccount && u === savedAccount.email && p === savedAccount.password) {
-            // دخول الحساب المشترك (المشتري)
             sessionStorage.removeItem('isAdminMode');
             enterSystem();
         } else { 
@@ -481,7 +472,6 @@
         updateSidebarShopName();
     }
 
-    // 🛠️ دالة الحذف الخاصة بك (المالك الأساسي) لحذف حساب المشترك نهائياً
     async function deleteUserAccountByAdmin() {
         const savedAccount = JSON.parse(localStorage.getItem('cyberMounirAccount'));
         if (!savedAccount) {
@@ -491,11 +481,8 @@
 
         const confirmDelete = await confirm(`هل أنت متأكد من حذف حساب (${savedAccount.shopName}) نهائياً؟ لن يتمكن المشتري من الدخول مجدداً!`);
         if (confirmDelete) {
-            // حذف الحساب من الذاكرة تماماً
             localStorage.removeItem('cyberMounirAccount');
             alert("🗑️ تم حذف الحساب بنجاح واختفى من النظام تماماً!");
-            
-            // إعادة تصفير مدخلات واجهة الدخول وتحديث اللوحة السرية
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             checkAdminPanelVisibility();
@@ -523,9 +510,6 @@
         document.body.classList.add('logged-in');
     }
 
-    // ======================================================= 
-    /* 👇 بقية دوال النظام التشغيلية تظل كما هي دقيقة ومثالية 👇 */
-    // =======================================================
     function addNewProductToDB() {
         const code = document.getElementById('newProdCode').value.trim();
         const name = document.getElementById('newProdName').value.trim();
@@ -673,6 +657,19 @@
     async function collectDebt(idx) { if(await confirm("هل تم استلام مبلغ الدين؟")) { currentDayItems[idx].type = 'sale'; updateUI(); } }
     async function deleteItem(idx) { if(await confirm("هل أنت متأكد من حذف هذه العملية؟")) { currentDayItems.splice(idx, 1); updateUI(); } }
     
+    function clearAllCurrentLog() {
+        const password = prompt("الرجاء إدخال كلمة السر لمسح السجل بالكامل:");
+        if (password === null) return;
+        if (password === "112233") {
+            currentDayItems = [];
+            localStorage.setItem('proShopCurrent', JSON.stringify(currentDayItems));
+            updateUI();
+            alert("🗑️ تم مسح السجل بالكامل بنجاح وتصفير الإحصائيات!");
+        } else {
+            alert("❌ كلمة السر غير صحيحة! لا تملك صلاحية مسح السجل.");
+        }
+    }
+
     function sellCard(provider) { flexySales[provider] += 110; localStorage.setItem('flexySalesSeparated', JSON.stringify(flexySales)); processEntry('sale', 110, `فليكسي ${provider}`); }
     async function resetCardSales() { if(await confirm("هل أنت متأكد ؟")) { flexySales = { Ooredoo: 0, Mobilis: 0, Djezzy: 0 }; localStorage.setItem('flexySalesSeparated', JSON.stringify(flexySales)); updateUI(); } }
 
@@ -700,17 +697,35 @@
                 <button class="btn btn-primary" style="padding:8px; font-size:0.8rem;" onclick="printReport(${ts})">🖨️ الفاتورة</button>
                 <button class="btn" style="padding:8px; font-size:0.8rem; background:var(--sidebar-bg); color:white;" onclick="resetWeek()">🔄 ترحيل</button>
             </div>`;
-        let html = '<table><thead><tr><th>📅 التاريخ</th><th>💰 المبيعات</th><th>⚙️ الإجراء</th></tr></thead><tbody>';
+        let html = '<table><thead><tr><th>📅 التاريخ</th><th>💰 المبيعات</th><th style="text-align:center;">⚙️ الإجراء</th></tr></thead><tbody>';
         dailyLog.slice().reverse().forEach((day, idx) => { 
             const rIdx = dailyLog.length - 1 - idx; 
             html += `<tr onclick="toggleDetails(${rIdx}, 'dailyLog', 'det-')" style="cursor:pointer;">
                 <td>${day.date} 🔽</td>
                 <td><b>${day.total.toLocaleString()} دج</b></td>
-                <td><button onclick="event.stopPropagation(); deleteArchive(${rIdx})" style="color:var(--danger); background:none; border:none; cursor:pointer;">🗑️</button></td>
+                <td style="text-align:center;">
+                    <button onclick="event.stopPropagation(); editArchiveDay(${rIdx})" style="color:var(--primary); background:none; border:none; cursor:pointer; font-size:1.1rem; margin-left:12px;" title="تعديل">📝</button>
+                    <button onclick="event.stopPropagation(); deleteArchive(${rIdx})" style="color:var(--danger); background:none; border:none; cursor:pointer; font-size:1.1rem;" title="حذف">🗑️</button>
+                </td>
             </tr>
             <tr><td colspan="3"><div id="det-${rIdx}" class="details-container"></div></td></tr>`; 
         });
         document.getElementById('archiveBody').innerHTML = html + '</tbody></table>';
+    }
+
+    async function editArchiveDay(idx) {
+        if (currentDayItems.length > 0) {
+            const overwrite = await confirm("تنبيه: السجل الحالي يحتوي على عمليات مسبقة! هل تود دمج العمليات معاً؟");
+            if (!overwrite) return;
+        }
+        const dayData = dailyLog[idx];
+        currentDayItems = [...currentDayItems, ...dayData.details];
+        dailyLog.splice(idx, 1);
+        localStorage.setItem('proShopLog', JSON.stringify(dailyLog));
+        localStorage.setItem('proShopCurrent', JSON.stringify(currentDayItems));
+        updateUI();
+        closeArchive();
+        alert(`📥 تم نقل عمليات يوم (${dayData.date}) بنجاح إلى السجل في الواجهة الرئيسية لتعديله!`);
     }
 
     function printReport(sales) {
@@ -750,7 +765,6 @@
 </script>
 
 <script>
-    // نظام الـ Confirm المطور والمتحرك والمخصص للنظام
     (function() {
         let confirmResolve = null;
         window.confirm = function(message) {
@@ -786,7 +800,6 @@
     .alert-shake { animation: alertShake 0.5s ease; }
 </style>
 <script>
-    // نظام التنبيهات الذكي والمخصص
     (function() {
         window.alert = function(message) {
             let messageHtml = message;
