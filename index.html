@@ -38,7 +38,7 @@
 
         .sidebar {
             animation: slideLeft 0.8s var(--tg-soft) both;
-            width: 260px; background: var(--sidebar-bg); color: white; padding: 25px 18px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
+            width: 260px; background: var(--sidebar-bg); color: white; padding: 25px 18px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto;
         }
         .stat-card {
             animation: zoomIn 0.6s var(--tg-bounce) both; background: var(--card-bg); padding: 20px;
@@ -69,7 +69,7 @@
             transition: all 0.2s var(--tg-soft) !important;
             border-radius: 12px; font-weight: 600; letter-spacing: 0.5px;
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            width: 100%; padding: 14px; border: none;
+            width: 100%; padding: 12px; border: none;
             cursor: pointer;
         }
         .btn:active { transform: scale(0.94); }
@@ -122,7 +122,7 @@
         .stats-grid { grid-column: span 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
         .individual-eye { position: absolute; top: 10px; left: 12px; cursor: pointer; opacity: 0.4; font-size: 1.2rem; user-select: none; }
         
-        input, textarea { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border); background: var(--main-bg); color: var(--text-main); font-family: inherit; transition: 0.3s; box-sizing: border-box; }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--main-bg); color: var(--text-main); font-family: inherit; transition: 0.3s; box-sizing: border-box; }
         input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
         
         .btn-primary { background: var(--primary); color: white; }
@@ -158,6 +158,19 @@
         .admin-panel {
             margin-top: 20px; background: rgba(244, 63, 94, 0.1); border: 1px dashed rgba(244, 63, 94, 0.4); border-radius: 16px; padding: 15px; display: none;
         }
+
+        /* 🛠️ تصميم شبكة بطاقات الخيارات الإضافية المصغرة */
+        .extra-options-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 15px;
+        }
+        .extra-card-btn {
+            background: var(--main-bg); border: 1.5px solid var(--border); padding: 18px 10px; border-radius: 18px; text-align: center; cursor: pointer; transition: 0.3s var(--tg-soft); display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .extra-card-btn:hover {
+            border-color: var(--primary); transform: translateY(-3px); background: rgba(79, 70, 229, 0.05); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
+        }
+        .extra-card-btn span.icon { font-size: 2rem; }
+        .extra-card-btn span.title { font-weight: 700; font-size: 0.9rem; color: var(--text-main); }
 
         @media (max-width: 1024px) {
             .main-content { grid-template-columns: 1fr; }
@@ -226,20 +239,21 @@
 
 <div class="app-container" id="appContainer">
     <div class="sidebar">
-        <h2 style="text-align:center; color:white; margin-bottom: 20px;">اللوحة الرئيسية</h2>
+        <h2 style="text-align:center; color:white; margin-bottom: 15px;">اللوحة الرئيسية</h2>
         <button class="btn" style="background:#6366f1; color:white;" onclick="openArchive()">📜 سجل الأسبوع</button>
         <button class="btn btn-primary" onclick="toggleTheme()">🌓 مظهر النظام</button>
         <button class="btn btn-debt" onclick="openDebtLatent()">📌 ديون لم تُدفع</button>
         <button class="btn" style="background:#d946ef; color:white;" onclick="downloadBackup()">💾 حفظ نسخة</button>
-        <button class="btn" style="background:#1e293b; border:1px solid #334155; color:white;" onclick="openFullHistory()">📁 tout les jours</button>
         
-        <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.2); margin-top: 5px;">
-            <label style="font-size: 0.8rem; color: #cbd5e1; display: block; margin-bottom: 6px; text-align: center;">📦SCAN (Scanner):</label>
+        <!-- 🛠️ زر خدمات إضافية المركزي الرئيسي -->
+        <button class="btn" style="background: linear-gradient(to right, #8b5cf6, #6366f1); color:white;" onclick="openExtraServicesModal()">🛠️ خدمات إضافية</button>
+
+        <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.2); margin-top: 5px;">
+            <label style="font-size: 0.8rem; color: #cbd5e1; display: block; margin-bottom: 4px; text-align: center;">📦SCAN (Scanner):</label>
             <input type="text" id="barcodeScannerInput" placeholder="|||||||||||||||||||||" onkeypress="handleBarcodeScan(event)" style="margin-bottom: 0; background: rgba(0,0,0,0.2); color: #fff; border-color: rgba(255,255,255,0.2); text-align: center;">
         </div>
 
-        <button class="btn" style="background:#0284c7; color:white; margin-top: 5px;" onclick="openProductsModal()">📦 إدارة ومخزن السلع</button>
-        <textarea id="dailyNotes" rows="4" placeholder="اكتب ملاحظاتك هنا..." oninput="saveNotes()" style="margin-top:10px;"></textarea>
+        <textarea id="dailyNotes" rows="3" placeholder="اكتب ملاحظاتك هنا..." oninput="saveNotes()" style="margin-top:5px;"></textarea>
         <button class="btn btn-danger" style="margin-top:auto" onclick="logout()">🔒 تسجيل الخروج</button>
     </div>
 
@@ -268,9 +282,24 @@
         </div>
 
         <div class="table-container">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0;">📊 السجل</h3>
-                <button class="btn btn-danger" style="width: auto; padding: 8px 16px; font-size: 0.85rem;" onclick="clearAllCurrentLog()">🗑️ مسح السجل بالكامل</button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h3 style="margin: 0; align-self: center;">📊 السجل</h3>
+                
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <div style="background: rgba(79, 70, 229, 0.08); border: 1px dashed var(--primary); padding: 6px 14px; border-radius: 12px; font-size: 0.85rem; display: flex; align-items: center; gap: 12px;">
+                        <div>
+                            <span style="color: var(--text-sub);">💳 الرصيد المتبقي الكارطة:</span>
+                            <strong id="headerCardBalance" style="color: var(--primary); font-size: 0.95rem;">0.00 دج</strong>
+                        </div>
+                        <span style="color: var(--border);">|</span>
+                        <div>
+                            <span style="color: var(--text-sub);">💸 التكلفة المقتطعة:</span>
+                            <strong id="headerCardCost" style="color: var(--danger); font-size: 0.95rem;">0.00 دج</strong>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-danger" style="width: auto; padding: 8px 16px; font-size: 0.85rem;" onclick="clearAllCurrentLog()">🗑️ مسح السجل بالكامل</button>
+                </div>
             </div>
             <div id="currentDayTable"></div>
         </div>
@@ -285,6 +314,26 @@
             </div>
             <button class="btn btn-debt" onclick="processEntry('debt')">📌 تسجيل دين</button>
             
+            <div style="margin-top:20px; padding:15px; border:1px solid var(--border); border-radius:16px; background: rgba(79, 70, 229, 0.04);">
+                <h4 style="margin:0 0 10px 0; text-align:center; color:var(--primary);">💳 حسابات البطاقة البنكية</h4>
+                
+                <input type="number" id="cardCost" placeholder="اقتطاع الكارطة (التكلفة) دج" style="margin-bottom:8px;">
+                <input type="number" id="cardProfit" placeholder="فائدتك الصافية (الربح) دج" style="margin-bottom:8px;">
+                <input type="text" id="cardNote" placeholder="بيان العملية (اختياري)" style="margin-bottom:10px;">
+                
+                <button class="btn btn-primary" onclick="addBankCardEntry()" style="background: linear-gradient(to right, #6366f1, #4f46e5); padding:10px; font-size:0.9rem;">
+                    ➕ تسجيل عملية الكارطة
+                </button>
+
+                <div style="margin-top: 14px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.05)); border: 1.5px solid rgba(16, 185, 129, 0.3); border-radius: 14px; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.3rem;">✨</span>
+                        <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">إجمالي أرباح الكارطة:</span>
+                    </div>
+                    <strong id="cardTotalProfit" style="color: var(--accent); font-size: 1.15rem; font-weight: 800;">0.00 دج</strong>
+                </div>
+            </div>
+
             <div style="margin-top:20px; padding-top:20px; border-top:2px dashed var(--border);">
                 <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
                     <button class="btn" style="background:#ed1c24; color:white; font-size: 0.85rem;" onclick="sellCard('Ooredoo')">Ooredoo</button>
@@ -299,6 +348,50 @@
                 <button class="btn" style="background:#475569; color:white; font-size:0.9rem; padding:10px;" onclick="resetCardSales()">------🔄----- </button>
             </div>
             <button class="btn btn-primary" style="background:linear-gradient(to right, #f59e0b, #d97706); margin-top:15px;" onclick="closeDay()">💾 ترحيل وإنهاء اليوم</button>
+        </div>
+    </div>
+</div>
+
+<!-- 🛠️ نافذة الخدمات الإضافية المعدلة (تتضمن الأرشيف الشامل + إدارة المخزن + رصيد البطاقة) -->
+<div id="extraServicesModal" class="modal">
+    <div class="modal-content" style="max-width: 580px; padding: 30px; border-radius: 28px;">
+        <span style="float:left; cursor:pointer; font-size:24px; background: rgba(0,0,0,0.05); padding: 5px 12px; border-radius: 50%;" onclick="closeExtraServicesModal()">✖</span>
+        
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+            <span style="font-size: 2rem;">🛠️</span>
+            <div>
+                <h3 style="margin: 0; color: var(--primary); font-size: 1.4rem;">خدمات وإعدادات إضافية</h3>
+                <p style="margin: 4px 0 0 0; font-size: 0.85rem; color: var(--text-sub);">اختر الخدمة التي تريد عرضها أو تعديلها:</p>
+            </div>
+        </div>
+
+        <!-- أزرار الأيقونات المصغرة داخل نافذة الخدمات الإضافية -->
+        <div class="extra-options-grid">
+            <div class="extra-card-btn" onclick="openFullHistoryFromModal()">
+                <span class="icon">📁</span>
+                <span class="title">tout les jours</span>
+                <span style="font-size: 0.75rem; color: var(--text-sub);">الأرشيف الشامل</span>
+            </div>
+
+            <div class="extra-card-btn" onclick="openProductsFromModal()">
+                <span class="icon">📦</span>
+                <span class="title">إدارة والمخزون</span>
+                <span style="font-size: 0.75rem; color: var(--text-sub);">ستوك وإدارة السلع</span>
+            </div>
+
+            <div class="extra-card-btn" onclick="toggleCardBalanceSection()">
+                <span class="icon">💳</span>
+                <span class="title">رصيد البطاقة</span>
+                <span style="font-size: 0.75rem; color: var(--text-sub);">شحن رصيد الكارطة</span>
+            </div>
+        </div>
+
+        <!-- قسم إدخال وتعديل رصيد الكارطة -->
+        <div id="cardBalanceSection" style="display: none; margin-top: 20px; background: rgba(79, 70, 229, 0.05); padding: 20px; border-radius: 18px; border: 1px solid var(--border); animation: slideUp 0.3s ease;">
+            <h4 style="margin: 0 0 8px 0; color: var(--primary);">💳 شحن وتعديل رصيد البطاقة الأولي:</h4>
+            <p style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 12px;">أدخل مبلغ الشحن الكلي المتواجد في البطاقة ليتم حساب المتبقي منه بدقة:</p>
+            <input type="number" id="cardInitialBalanceInputModal" placeholder="أدخل رصيد الكارطة بالدج..." style="margin-bottom: 10px;">
+            <button class="btn btn-primary" onclick="setInitialCardBalanceFromModal()" style="font-size: 0.9rem;">💾 حفظ وتثبيت الرصيد</button>
         </div>
     </div>
 </div>
@@ -367,12 +460,37 @@
     let fullHistory = JSON.parse(localStorage.getItem('toutLesJoursLog')) || [];
     let currentDayItems = JSON.parse(localStorage.getItem('proShopCurrent')) || [];
     let flexySales = JSON.parse(localStorage.getItem('flexySalesSeparated')) || { Ooredoo: 0, Mobilis: 0, Djezzy: 0 };
+    let cardStats = JSON.parse(localStorage.getItem('bankCardStats')) || { initialBalance: 0, totalCost: 0, totalProfit: 0 };
     let historyChartInstance = null;
 
     let productsDatabase = JSON.parse(localStorage.getItem('productsDatabase')) || {
         "6221234567890": { name: "كراس 64 صفحة", price: 60, qty: 10 },
         "6229876543210": { name: "قلم جاف Bic", price: 35, qty: 50 }
     };
+
+    function openExtraServicesModal() {
+        document.getElementById('extraServicesModal').style.display = 'block';
+        document.getElementById('cardBalanceSection').style.display = 'none'; 
+        if (cardStats.initialBalance) {
+            document.getElementById('cardInitialBalanceInputModal').value = cardStats.initialBalance;
+        }
+    }
+    function closeExtraServicesModal() { document.getElementById('extraServicesModal').style.display = 'none'; }
+
+    function toggleCardBalanceSection() {
+        const sec = document.getElementById('cardBalanceSection');
+        sec.style.display = (sec.style.display === 'none' || sec.style.display === '') ? 'block' : 'none';
+    }
+
+    function openFullHistoryFromModal() {
+        closeExtraServicesModal();
+        openFullHistory();
+    }
+
+    function openProductsFromModal() {
+        closeExtraServicesModal();
+        openProductsModal();
+    }
 
     function switchAuthTab(type) {
         const tabSignIn = document.getElementById('tabSignIn');
@@ -623,6 +741,55 @@
         updateUI();
     }
 
+    function setInitialCardBalanceFromModal() {
+        const balance = parseFloat(document.getElementById('cardInitialBalanceInputModal').value) || 0;
+        cardStats.initialBalance = balance;
+        localStorage.setItem('bankCardStats', JSON.stringify(cardStats));
+        updateBankCardUI();
+        closeExtraServicesModal();
+        alert(`💳 تم تحديث وتثبيت رصيد البطاقة الأولي: ${balance.toLocaleString()} دج بنجاح!`);
+    }
+
+    function addBankCardEntry() {
+        const cost = parseFloat(document.getElementById('cardCost').value) || 0;
+        const profit = parseFloat(document.getElementById('cardProfit').value) || 0;
+        const note = document.getElementById('cardNote').value.trim() || "بطاقة بنكية";
+
+        if (cost <= 0 && profit <= 0) {
+            alert("الرجاء إدخال مبلغ التكلفة أو الفائدة بشكل صحيح!");
+            return;
+        }
+
+        const totalSale = cost + profit;
+        processEntry('sale', totalSale, `💳 ${note} (تكلفة: ${cost} | فائدة: ${profit})`);
+
+        cardStats.totalCost += cost;
+        cardStats.totalProfit += profit;
+        localStorage.setItem('bankCardStats', JSON.stringify(cardStats));
+
+        document.getElementById('cardCost').value = '';
+        document.getElementById('cardProfit').value = '';
+        document.getElementById('cardNote').value = '';
+        updateBankCardUI();
+    }
+
+    function updateBankCardUI() {
+        document.getElementById('cardTotalProfit').innerText = cardStats.totalProfit.toLocaleString() + " دج";
+        
+        const remainingBalance = (cardStats.initialBalance || 0) - (cardStats.totalCost || 0);
+
+        const headerBalanceElem = document.getElementById('headerCardBalance');
+        if (headerBalanceElem) {
+            headerBalanceElem.innerText = remainingBalance.toLocaleString() + " دج";
+            headerBalanceElem.style.color = remainingBalance < 5000 ? "var(--danger)" : "var(--primary)";
+        }
+
+        const headerCostElem = document.getElementById('headerCardCost');
+        if (headerCostElem) {
+            headerCostElem.innerText = cardStats.totalCost.toLocaleString() + " دج";
+        }
+    }
+
     function updateUI() {
         localStorage.setItem('proShopCurrent', JSON.stringify(currentDayItems));
         const s = currentDayItems.filter(i => i.type === 'sale').reduce((acc, i) => acc + i.price, 0);
@@ -652,6 +819,7 @@
         document.getElementById('countOoredoo').innerText = flexySales.Ooredoo.toLocaleString();
         document.getElementById('countMobilis').innerText = flexySales.Mobilis.toLocaleString();
         document.getElementById('countDjezzy').innerText = flexySales.Djezzy.toLocaleString();
+        updateBankCardUI();
     }
 
     async function collectDebt(idx) { if(await confirm("هل تم استلام مبلغ الدين؟")) { currentDayItems[idx].type = 'sale'; updateUI(); } }
@@ -662,6 +830,9 @@
         if (password === null) return;
         if (password === "112233") {
             currentDayItems = [];
+            cardStats.totalCost = 0;
+            cardStats.totalProfit = 0;
+            localStorage.setItem('bankCardStats', JSON.stringify(cardStats));
             localStorage.setItem('proShopCurrent', JSON.stringify(currentDayItems));
             updateUI();
             alert("🗑️ تم مسح السجل بالكامل بنجاح وتصفير الإحصائيات!");
@@ -681,6 +852,9 @@
             dailyLog.push({ date: new Date().toLocaleDateString('ar-DZ'), total: s, expenses: e, net: s-e, details: [...currentDayItems] });
             localStorage.setItem('proShopLog', JSON.stringify(dailyLog));
             currentDayItems = []; 
+            cardStats.totalCost = 0;
+            cardStats.totalProfit = 0;
+            localStorage.setItem('bankCardStats', JSON.stringify(cardStats));
             updateUI();
         }
     }
@@ -753,7 +927,7 @@
     function closeDebtModal() { document.getElementById('debtModal').style.display = 'none'; }
     async function deleteArchive(idx) { if(await confirm("هل أنت متأكد من حذف بيانات هذا اليوم ؟")) { dailyLog.splice(idx, 1); localStorage.setItem('proShopLog', JSON.stringify(dailyLog)); openArchive(); } }
     function saveNotes() { localStorage.setItem('dailyNotes', document.getElementById('dailyNotes').value); }
-    function downloadBackup() { const data = JSON.stringify({dailyLog, fullHistory, currentDayItems, flexySales, productsDatabase}); const blob = new Blob([data], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'cyber_backup.json'; a.click(); }
+    function downloadBackup() { const data = JSON.stringify({dailyLog, fullHistory, currentDayItems, flexySales, productsDatabase, cardStats}); const blob = new Blob([data], {type: 'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'cyber_backup.json'; a.click(); }
     function toggleCardPrivacy(id) { cardPrivacy[id] = !cardPrivacy[id]; updateUI(); }
     
     window.onload = () => { 
